@@ -11,7 +11,7 @@ import { DeviceErrorHandler } from './error.handler';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: [__dirname + '/../.env'],
+      envFilePath: ['.env'],
       validationSchema: configValidationSchema,
     }),
     MongooseModule.forRootAsync({
