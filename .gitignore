@@ -45,3 +45,4 @@ src/**/*.d.ts
 src/**/*.d.ts.map
 src/**/*.js
 src/**/*.js.map
+tsconfig.build.tsbuildinfo
