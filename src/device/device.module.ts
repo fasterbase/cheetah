@@ -8,6 +8,7 @@ import { Device, DeviceSchema } from './schemas/device.schema';
 import { DeviceService } from './services/device.service';
 import { DeviceRepository } from './repositories/device.repository';
 import { ErrorHandlerModule } from '@cheetah/error-handler';
+import { LoggerModule } from 'libs/logger/src';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ErrorHandlerModule } from '@cheetah/error-handler';
       inject: [ConfigService],
     }),
     MongooseModule.forFeature([{ name: Device.name, schema: DeviceSchema }]),
+    LoggerModule,
     ErrorHandlerModule,
   ],
   controllers: [DeviceController],

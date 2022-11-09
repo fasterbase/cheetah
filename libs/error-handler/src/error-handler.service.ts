@@ -31,10 +31,12 @@ export class ErrorHandlerService {
     const { code, error } = options;
     let { message } = options;
     if (!message) message = ErrorMapper[code];
-    console.error({
-      error,
-      code,
-      message,
-    });
+    throw new HttpException(
+      {
+        code,
+        message,
+      },
+      403,
+    );
   };
 }

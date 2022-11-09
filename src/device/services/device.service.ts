@@ -33,11 +33,13 @@ export class DeviceService {
     }
   }
 
-  async getDevices(deviceDto: Partial<DeviceDto>): Promise<Device[]> {
+  async getDevices(options: {
+    companyId: Partial<DeviceDto['companyId']>;
+  }): Promise<Device[]> {
     try {
-      deviceDto.companyId = 'STATIC_CID';
+      const { companyId } = options;
       return await this.deviceHelper.findDevices({
-        companyId: deviceDto.companyId,
+        companyId,
       });
     } catch (e) {
       this.errorHandlerService.error({
