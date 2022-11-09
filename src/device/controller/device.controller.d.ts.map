@@ -1,1 +1,0 @@
-{"version":3,"file":"device.controller.d.ts","sourceRoot":"","sources":["device.controller.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,uBAAuB,CAAC;AAElD,OAAO,EAAE,aAAa,EAAE,MAAM,4BAA4B,CAAC;AAG3D,qBACa,gBAAgB;IACf,OAAO,CAAC,QAAQ,CAAC,aAAa;gBAAb,aAAa,EAAE,aAAa;IAGzD,YAAY,CAAS,SAAS,EAAE,SAAS,GAAG,SAAS;CAMtD"}

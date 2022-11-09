@@ -1,5 +1,10 @@
 import { DeviceDto } from '@cheetah/dtos/devices';
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { Device, DeviceDocument } from '../schemas/device.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -10,10 +15,9 @@ export class DeviceService {
     private readonly deviceErrorHandler: DeviceErrorHandler,
     @InjectModel(Device.name) private deviceModel: Model<DeviceDocument>,
   ) {}
-  async addNewDevice(deviceDto: DeviceDto): Promise<Device> {
+  async addNewDevice(deviceDto: DeviceDto): Promise<Device | void> {
     try {
-      const data = await this.deviceModel.create(deviceDto);
-      return data;
+      return await this.deviceModel.create(deviceDto);
     } catch (e) {
       this.deviceErrorHandler.mongoose(e);
     }
