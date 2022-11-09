@@ -10,6 +10,9 @@ export class Device {
 
   @Prop({ required: true })
   name: string;
+
+  @Prop({ required: false })
+  description?: string;
 }
 
 export const DeviceSchema = SchemaFactory.createForClass(Device);

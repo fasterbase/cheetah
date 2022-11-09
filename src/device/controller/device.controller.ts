@@ -1,9 +1,11 @@
 import { DeviceService } from '../services/device.service';
 import { HttpExceptionFilter } from '@cheetah/error-handler/http-exception.filter';
 import { DeviceDto } from '@cheetah/dtos/devices';
-import { Body, Controller, Post, UseFilters } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseFilters } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 @UseFilters(HttpExceptionFilter)
+@ApiTags('Device')
 @Controller('device')
 export class DeviceController {
   constructor(private readonly deviceService: DeviceService) {}

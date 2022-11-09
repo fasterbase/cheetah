@@ -1,25 +1,49 @@
 import { DeviceDto } from '@cheetah/dtos/devices';
-import {
-  ForbiddenException,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Device, DeviceDocument } from '../schemas/device.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { DeviceErrorHandler } from '../error.handler';
+import { DeviceRepository } from '../repositories/device.repository';
+import { ErrorHandlerService } from '@cheetah/error-handler/error-handler.service';
+import { DeviceErrorCode } from '@cheetah/error-handler/enums';
 @Injectable()
 export class DeviceService {
   constructor(
-    private readonly deviceErrorHandler: DeviceErrorHandler,
+    private readonly errorHandlerService: ErrorHandlerService,
+    private readonly deviceHelper: DeviceRepository,
     @InjectModel(Device.name) private deviceModel: Model<DeviceDocument>,
   ) {}
-  async addNewDevice(deviceDto: DeviceDto): Promise<Device | void> {
+
+  async addNewDevice(deviceDto: DeviceDto): Promise<Device> {
     try {
-      return await this.deviceModel.create(deviceDto);
+      deviceDto.companyId = 'STATIC_CID';
+      const existDevice = await this.deviceHelper.findDevice({
+        companyId: deviceDto.companyId,
+        name: deviceDto.name,
+      });
+      if (!existDevice) return await this.deviceModel.create(deviceDto);
+      this.errorHandlerService.error({
+        code: DeviceErrorCode.DEVICE_EXIST,
+      });
     } catch (e) {
-      this.deviceErrorHandler.mongoose(e);
+      this.errorHandlerService.error({
+        code: DeviceErrorCode.DEVICE_UNKNOWN,
+        error: e,
+      });
+    }
+  }
+
+  async getDevices(deviceDto: Partial<DeviceDto>): Promise<Device[]> {
+    try {
+      deviceDto.companyId = 'STATIC_CID';
+      return await this.deviceHelper.findDevices({
+        companyId: deviceDto.companyId,
+      });
+    } catch (e) {
+      this.errorHandlerService.error({
+        code: DeviceErrorCode.DEVICE_UNKNOWN,
+        error: e,
+      });
     }
   }
 }

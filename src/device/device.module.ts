@@ -6,7 +6,8 @@ import { configValidationSchema } from './config.schema';
 import { DeviceController } from './controller/device.controller';
 import { Device, DeviceSchema } from './schemas/device.schema';
 import { DeviceService } from './services/device.service';
-import { DeviceErrorHandler } from './error.handler';
+import { DeviceRepository } from './repositories/device.repository';
+import { ErrorHandlerModule } from '@cheetah/error-handler';
 
 @Module({
   imports: [
@@ -22,8 +23,9 @@ import { DeviceErrorHandler } from './error.handler';
       inject: [ConfigService],
     }),
     MongooseModule.forFeature([{ name: Device.name, schema: DeviceSchema }]),
+    ErrorHandlerModule,
   ],
   controllers: [DeviceController],
-  providers: [DeviceService, DeviceErrorHandler],
+  providers: [DeviceService, DeviceRepository],
 })
 export class DeviceModule {}
