@@ -6,4 +6,6 @@ export class DeviceDto extends DTOVerification<DeviceDto>() {
   @ApiProperty()
   @IsString()
   name: string;
+
+  companyId: string;
 }

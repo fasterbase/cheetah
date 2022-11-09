@@ -18,15 +18,9 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@cheetah/dtos/*": [
-        "libs/dtos/src/*/index.ts"
-      ],
-      "@cheetah/error-handler": [
-        "libs/error-handler/src"
-      ],
-      "@cheetah/error-handler/*": [
-        "libs/error-handler/src/*"
-      ]
+      "@cheetah/dtos/*": ["libs/dtos/src/*/index.ts"],
+      "@cheetah/error-handler": ["libs/error-handler/src"],
+      "@cheetah/error-handler/*": ["libs/error-handler/src/*"]
     }
   }
 }

@@ -4,7 +4,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { configValidationSchema } from './config.schema';
 import { DeviceController } from './controller/device.controller';
+import { Device, DeviceSchema } from './schemas/device.schema';
 import { DeviceService } from './services/device.service';
+import { DeviceErrorHandler } from './error.handler';
 
 @Module({
   imports: [
@@ -19,8 +21,9 @@ import { DeviceService } from './services/device.service';
       }),
       inject: [ConfigService],
     }),
+    MongooseModule.forFeature([{ name: Device.name, schema: DeviceSchema }]),
   ],
   controllers: [DeviceController],
-  providers: [DeviceService],
+  providers: [DeviceService, DeviceErrorHandler],
 })
 export class DeviceModule {}

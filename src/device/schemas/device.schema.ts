@@ -12,4 +12,4 @@ export class Device {
   name: string;
 }
 
-export const DeviceDocument = SchemaFactory.createForClass(Device);
+export const DeviceSchema = SchemaFactory.createForClass(Device);

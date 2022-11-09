@@ -10,9 +10,7 @@ export class DeviceController {
 
   @Post()
   addNewDevice(@Body() deviceDto: DeviceDto): DeviceDto {
-    console.log({ deviceDto });
     const data = this.deviceService.addNewDevice(deviceDto);
-    console.log({ data });
     return DeviceDto.validate(data);
   }
 }
