@@ -34,6 +34,14 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 **/.env
-*.js
-*.d.ts
-*.js.map
+
+*.tsbuildinfo
+libs/*/src/**/*.d.ts
+libs/*/src/**/*.d.ts.map
+libs/*/src/**/*.js
+libs/*/src/**/*.js.map
+
+src/**/*.d.ts
+src/**/*.d.ts.map
+src/**/*.js
+src/**/*.js.map

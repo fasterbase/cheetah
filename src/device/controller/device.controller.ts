@@ -1,5 +1,4 @@
 import { Body, Controller, Post, UseFilters } from '@nestjs/common';
-import { DeviceDto } from '@cheetah/dtos/devices';
 import { DeviceService } from '../services/device.service';
 import { HttpExceptionFilter } from '@cheetah/error-handler/http-exception.filter';
 
