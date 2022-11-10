@@ -1,4 +1,4 @@
-import { DeviceDto } from '@cheetah/dtos/devices';
+import { DeviceDto, OutputDto } from '@cheetah/dtos/devices';
 import { Injectable } from '@nestjs/common';
 import { Device, DeviceDocument } from '../schemas/device.schema';
 import { Model } from 'mongoose';
@@ -31,36 +31,27 @@ export class DeviceService {
   async getDevices(options: {
     companyId: Partial<DeviceDto['companyId']>;
   }): Promise<Device[]> {
-    try {
-      const { companyId } = options;
-      return await this.deviceRepository.findDevices({
-        companyId,
-      });
-    } catch (e) {
-      this.errorHandlerService.error({
-        code: DeviceErrorCode.DEVICE_UNKNOWN,
-        error: e,
-      });
-    }
+    const { companyId } = options;
+    return await this.deviceRepository.findDevices({
+      companyId,
+    });
   }
 
   async getDevice(options: {
     companyId: Partial<DeviceDto['companyId']>;
     deviceId: string;
-  }): Promise<Device> {
-    try {
-      const { companyId, deviceId } = options;
-      const data = await this.deviceRepository.findDeviceById({
-        companyId,
-        deviceId,
-      });
-      return data.toObject();
-    } catch (e) {
-      console.error(e);
-      this.errorHandlerService.error({
-        code: DeviceErrorCode.DEVICE_UNKNOWN,
-        error: e,
-      });
-    }
+  }): Promise<DeviceDto> {
+    const { companyId, deviceId } = options;
+    const data = await this.deviceRepository.findDeviceById({
+      companyId,
+      deviceId,
+    });
+    return data;
+  }
+
+  async addOrUpdateOutput(outputDto: OutputDto) {
+    outputDto.companyId = 'STATIC_CID';
+    await this.deviceRepository.addOrUpdateOutput(outputDto);
+    return 'hi';
   }
 }

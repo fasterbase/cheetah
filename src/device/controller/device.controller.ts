@@ -1,15 +1,7 @@
 import { DeviceService } from '../services/device.service';
 import { HttpExceptionFilter } from '@cheetah/error-handler/http-exception.filter';
-import { DeviceByIdDto, DeviceDto } from '@cheetah/dtos/devices';
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Query,
-  UseFilters,
-} from '@nestjs/common';
+import { DeviceByIdDto, DeviceDto, OutputDto } from '@cheetah/dtos/devices';
+import { Body, Controller, Get, Param, Post, UseFilters } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { LoggerService } from 'libs/logger/src';
 
@@ -50,5 +42,11 @@ export class DeviceController {
       deviceId: deviceByIdDto.deviceId,
     });
     return DeviceDto.validate(data);
+  }
+
+  @Post('/output')
+  async addOrUpdateOutput(@Body() outputDto: OutputDto) {
+    this.logger.log('addNewOutput called', { outputDto });
+    return this.deviceService.addOrUpdateOutput(outputDto);
   }
 }

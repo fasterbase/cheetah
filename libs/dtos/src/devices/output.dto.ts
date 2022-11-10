@@ -1,18 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsMongoId, IsOptional, IsString } from 'class-validator';
 import { DTOVerification } from '../base.dto';
-import { OutputDto } from './output.dto';
 
-export class DeviceDto extends DTOVerification<DeviceDto>() {
+export class OutputDto extends DTOVerification<OutputDto>() {
   @ApiProperty({ required: true })
   @IsString()
   name: string;
 
+  @ApiProperty({ required: true })
+  @IsMongoId()
+  deviceId: string;
+
   @ApiProperty({ required: false })
   @IsString()
   @IsOptional()
-  description?: string;
+  key?: string;
 
-  outputs?: OutputDto[];
   companyId?: string;
 }

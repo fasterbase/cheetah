@@ -1,10 +1,11 @@
-import { DeviceDto } from '@cheetah/dtos/devices';
+import { DeviceDto, OutputDto } from '@cheetah/dtos/devices';
 import { ErrorHandlerService } from '@cheetah/error-handler';
 import { MongooseErrorCode } from '@cheetah/error-handler/enums';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Device, DeviceDocument } from '../schemas/device.schema';
+import { nanoid } from 'nanoid';
 
 @Injectable()
 export class DeviceRepository {
@@ -13,32 +14,24 @@ export class DeviceRepository {
     @InjectModel(Device.name) private deviceModel: Model<DeviceDocument>,
   ) {}
 
-  async findDeviceById(options: { deviceId: string; companyId: string }) {
+  async findDeviceById(options: {
+    deviceId: string;
+    companyId: string;
+  }): Promise<DeviceDto> {
     const { deviceId, companyId } = options;
 
-    try {
-      return await this.deviceModel.findOne({ companyId, _id: deviceId });
-    } catch (error) {
-      console.error(error);
-      this.errorHandlerService.error({
-        code: MongooseErrorCode.UNKNOWN,
-        error,
-      });
-    }
+    const device = await this.deviceModel.findOne({
+      companyId,
+      _id: deviceId,
+    });
+
+    if (device) return device.toObject();
+    throw new NotFoundException('Device not found');
   }
 
   async findDeviceByName(options: { name: string; companyId: string }) {
     const { name, companyId } = options;
-
-    try {
-      return await this.deviceModel.findOne({ companyId, name });
-    } catch (error) {
-      console.error(error);
-      this.errorHandlerService.error({
-        code: MongooseErrorCode.UNKNOWN,
-        error,
-      });
-    }
+    return await this.deviceModel.findOne({ companyId, name });
   }
 
   //@todo implement filters
@@ -47,14 +40,44 @@ export class DeviceRepository {
     filter?: Partial<DeviceDto>;
   }) {
     const { companyId } = options;
-    try {
-      return await this.deviceModel.find({ companyId });
-    } catch (error) {
-      console.error(error);
-      this.errorHandlerService.error({
-        code: MongooseErrorCode.UNKNOWN,
-        error,
-      });
+    return await this.deviceModel.find({ companyId });
+  }
+
+  async addOrUpdateOutput(outputDto: OutputDto) {
+    //@todo optimize query
+    const device = await this.findDeviceById({
+      deviceId: outputDto.deviceId,
+      companyId: outputDto.companyId,
+    });
+    let isOutPutExist = false;
+    if (device?.outputs?.length) {
+      isOutPutExist =
+        device.outputs.findIndex((output) => output.key === outputDto.key) ===
+        -1
+          ? false
+          : true;
+    }
+    if (isOutPutExist) {
+      await this.deviceModel.updateOne(
+        {
+          _id: outputDto.deviceId,
+          companyId: outputDto.companyId,
+          'outputs.key': outputDto.key,
+        },
+        { $set: { 'outputs.$.name': outputDto.name } },
+      );
+    } else {
+      await this.deviceModel.updateOne(
+        {
+          _id: outputDto.deviceId,
+          companyId: outputDto.companyId,
+        },
+        {
+          $push: {
+            outputs: { key: outputDto.key || nanoid(), name: outputDto.name },
+          },
+        },
+      );
     }
   }
 }
