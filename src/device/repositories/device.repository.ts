@@ -13,15 +13,27 @@ export class DeviceRepository {
     @InjectModel(Device.name) private deviceModel: Model<DeviceDocument>,
   ) {}
 
-  async findDevice(options: { name: string; companyId: string }) {
-    const { name, companyId } = options;
-    const findQuery: DeviceDto = {
-      name,
-      companyId: companyId,
-    };
+  async findDeviceById(options: { deviceId: string; companyId: string }) {
+    const { deviceId, companyId } = options;
+
     try {
-      return await this.deviceModel.findOne(findQuery);
+      return await this.deviceModel.findOne({ companyId, _id: deviceId });
     } catch (error) {
+      console.error(error);
+      this.errorHandlerService.error({
+        code: MongooseErrorCode.UNKNOWN,
+        error,
+      });
+    }
+  }
+
+  async findDeviceByName(options: { name: string; companyId: string }) {
+    const { name, companyId } = options;
+
+    try {
+      return await this.deviceModel.findOne({ companyId, name });
+    } catch (error) {
+      console.error(error);
       this.errorHandlerService.error({
         code: MongooseErrorCode.UNKNOWN,
         error,
@@ -38,6 +50,7 @@ export class DeviceRepository {
     try {
       return await this.deviceModel.find({ companyId });
     } catch (error) {
+      console.error(error);
       this.errorHandlerService.error({
         code: MongooseErrorCode.UNKNOWN,
         error,

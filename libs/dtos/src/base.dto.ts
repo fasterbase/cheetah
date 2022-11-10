@@ -9,6 +9,7 @@ export function DTOVerification<T>() {
         if (typeof object !== 'object' || object === null)
           throw new HttpException('DTO type is not a valid object', 403);
         const classed = plainToInstance(this, object);
+        console.log({ object, classed });
         const errors = validateSync(classed);
         if (errors.length > 0) {
           const errorText = errors.map((e) => Object.values(e.constraints)[0]);

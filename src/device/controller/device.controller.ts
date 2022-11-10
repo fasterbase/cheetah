@@ -1,7 +1,15 @@
 import { DeviceService } from '../services/device.service';
 import { HttpExceptionFilter } from '@cheetah/error-handler/http-exception.filter';
-import { DeviceDto } from '@cheetah/dtos/devices';
-import { Body, Controller, Get, Post, Query, UseFilters } from '@nestjs/common';
+import { DeviceByIdDto, DeviceDto } from '@cheetah/dtos/devices';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseFilters,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { LoggerService } from 'libs/logger/src';
 
@@ -30,5 +38,17 @@ export class DeviceController {
       companyId: 'STATIC_CID',
     });
     return DeviceDto.arrayValidate(data);
+  }
+
+  @Get('/:deviceId')
+  async getDeviceById(
+    @Param() deviceByIdDto: DeviceByIdDto,
+  ): Promise<DeviceDto> {
+    this.logger.log('getDeviceById called');
+    const data = await this.deviceService.getDevice({
+      companyId: 'STATIC_CID',
+      deviceId: deviceByIdDto.deviceId,
+    });
+    return DeviceDto.validate(data);
   }
 }
