@@ -33,8 +33,9 @@ export class DeviceRepository {
     companyId: string;
     filter?: Partial<DeviceDto>;
   }): Promise<Device[]> {
-    const { filter, companyId } = options;
-
+    let { filter } = options;
+    const { companyId } = options;
+    if (!filter) filter = { companyId };
     filter.companyId = companyId;
 
     const devices = await this.deviceModel.find(filter);

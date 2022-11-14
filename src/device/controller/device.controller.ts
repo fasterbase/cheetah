@@ -1,6 +1,6 @@
 import { DeviceService } from '../services/device.service';
 import { DeviceByIdDto, DeviceDto, OutputDto } from '@cheetah/dtos/devices';
-import { ActionAccepted } from '@cheetah/dtos';
+import { ActionAccepted, Pagination } from '@cheetah/dtos';
 import {
   Body,
   Controller,
@@ -31,16 +31,19 @@ export class DeviceController {
     return DeviceDto.validate(data);
   }
 
-  @Get()
-  async getAllDevices(): Promise<DeviceDto[]> {
+  @Get('list')
+  async getAllDevices(): Promise<Pagination<DeviceDto>> {
     this.logger.log('getAllDevices called');
     const data = await this.deviceService.getDevices({
       companyId: 'STATIC_CID',
     });
-    return DeviceDto.arrayValidate(data);
+    return {
+      data: DeviceDto.arrayValidate(data),
+      more: false,
+    };
   }
 
-  @Get('/:deviceId')
+  @Get('/:_id')
   async getDeviceById(
     @Param() deviceByIdDto: DeviceByIdDto,
   ): Promise<DeviceDto> {
