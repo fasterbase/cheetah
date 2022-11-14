@@ -1,18 +1,17 @@
 import { DeviceDto, OutputDto } from '@cheetah/dtos/devices';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Device, DeviceDocument } from '../schemas/device.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { DeviceRepository } from '../repositories/device.repository';
-import { ErrorHandlerService } from '@cheetah/error-handler/error-handler.service';
-import { DeviceErrorCode } from '@cheetah/error-handler/enums';
 import { LoggerService } from '@cheetah/logger';
+import { OutputBlockRepository } from '../repositories/output.block.repository';
 @Injectable()
 export class DeviceService {
   constructor(
     private readonly logger: LoggerService,
-    private readonly errorHandlerService: ErrorHandlerService,
     private readonly deviceRepository: DeviceRepository,
+    private readonly outputBlockRepository: OutputBlockRepository,
     @InjectModel(Device.name) private deviceModel: Model<DeviceDocument>,
   ) {}
 
@@ -23,9 +22,7 @@ export class DeviceService {
       filter: { name: deviceDto.name },
     });
     if (!existDevice) return await this.deviceRepository.insertOne(deviceDto);
-    this.errorHandlerService.error({
-      code: DeviceErrorCode.DEVICE_EXIST,
-    });
+    throw new HttpException('Device is already exist', HttpStatus.CONFLICT);
   }
 
   async getDevices(options: {
@@ -51,7 +48,7 @@ export class DeviceService {
 
   async addOrUpdateOutput(outputDto: OutputDto): Promise<boolean> {
     outputDto.companyId = 'STATIC_CID';
-    await this.deviceRepository.addOrUpdateOutput(outputDto);
+    await this.outputBlockRepository.addOrUpdateOutput(outputDto);
     return true;
   }
 }

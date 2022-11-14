@@ -20,8 +20,6 @@
     "paths": {
       "@cheetah/dtos": ["libs/dtos/src"],
       "@cheetah/dtos/*": ["libs/dtos/src/*"],
-      "@cheetah/error-handler": ["libs/error-handler/src"],
-      "@cheetah/error-handler/*": ["libs/error-handler/src/*"],
       "@cheetah/logger": ["libs/logger/src"],
       "@cheetah/logger/*": ["libs/logger/src/*"]
     }

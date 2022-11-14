@@ -7,8 +7,9 @@ import { DeviceController } from './controller/device.controller';
 import { Device, DeviceSchema } from './schemas/device.schema';
 import { DeviceService } from './services/device.service';
 import { DeviceRepository } from './repositories/device.repository';
-import { ErrorHandlerModule } from '@cheetah/error-handler';
-import { LoggerModule } from 'libs/logger/src';
+import { LoggerModule } from '@cheetah/logger';
+import { OutputBlockRepository } from './repositories/output.block.repository';
+import { DeviceTestController } from './controller/device.test.controller';
 
 @Module({
   imports: [
@@ -25,9 +26,8 @@ import { LoggerModule } from 'libs/logger/src';
     }),
     MongooseModule.forFeature([{ name: Device.name, schema: DeviceSchema }]),
     LoggerModule,
-    ErrorHandlerModule,
   ],
-  controllers: [DeviceController],
-  providers: [DeviceService, DeviceRepository],
+  controllers: [DeviceController, DeviceTestController],
+  providers: [DeviceService, DeviceRepository, OutputBlockRepository],
 })
 export class DeviceModule {}

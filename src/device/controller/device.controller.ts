@@ -1,12 +1,19 @@
 import { DeviceService } from '../services/device.service';
-import { HttpExceptionFilter } from '@cheetah/error-handler/http-exception.filter';
 import { DeviceByIdDto, DeviceDto, OutputDto } from '@cheetah/dtos/devices';
 import { ActionAccepted } from '@cheetah/dtos';
-import { Body, Controller, Get, Param, Post, UseFilters } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  UseFilters,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { LoggerService } from 'libs/logger/src';
+import { LoggerService } from '@cheetah/logger';
 
-@UseFilters(HttpExceptionFilter)
 @ApiTags('Device')
 @Controller('device')
 export class DeviceController {
@@ -42,7 +49,8 @@ export class DeviceController {
       companyId: 'STATIC_CID',
       deviceId: deviceByIdDto._id,
     });
-    return DeviceDto.validate(data);
+    if (data) return DeviceDto.validate(data);
+    throw new HttpException('Device not found', HttpStatus.NOT_FOUND);
   }
 
   @Post('/output')
