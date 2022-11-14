@@ -5,5 +5,5 @@ import { DTOVerification } from '../base.dto';
 export class DeviceByIdDto extends DTOVerification<DeviceByIdDto>() {
   @ApiProperty({ required: true })
   @IsMongoId()
-  deviceId: string;
+  _id: string;
 }

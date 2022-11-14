@@ -18,11 +18,11 @@ export class DeviceService {
 
   async addNewDevice(deviceDto: DeviceDto): Promise<Device> {
     deviceDto.companyId = 'STATIC_CID';
-    const existDevice = await this.deviceRepository.findDeviceByName({
+    const existDevice = await this.deviceRepository.findOne({
       companyId: deviceDto.companyId,
-      name: deviceDto.name,
+      filter: { name: deviceDto.name },
     });
-    if (!existDevice) return await this.deviceModel.create(deviceDto);
+    if (!existDevice) return await this.deviceRepository.insertOne(deviceDto);
     this.errorHandlerService.error({
       code: DeviceErrorCode.DEVICE_EXIST,
     });
@@ -32,7 +32,7 @@ export class DeviceService {
     companyId: Partial<DeviceDto['companyId']>;
   }): Promise<Device[]> {
     const { companyId } = options;
-    return await this.deviceRepository.findDevices({
+    return await this.deviceRepository.findMany({
       companyId,
     });
   }
@@ -40,18 +40,18 @@ export class DeviceService {
   async getDevice(options: {
     companyId: Partial<DeviceDto['companyId']>;
     deviceId: string;
-  }): Promise<DeviceDto> {
+  }): Promise<Device> {
     const { companyId, deviceId } = options;
-    const data = await this.deviceRepository.findDeviceById({
+    const data = await this.deviceRepository.findOne({
       companyId,
-      deviceId,
+      filter: { _id: deviceId },
     });
     return data;
   }
 
-  async addOrUpdateOutput(outputDto: OutputDto) {
+  async addOrUpdateOutput(outputDto: OutputDto): Promise<boolean> {
     outputDto.companyId = 'STATIC_CID';
     await this.deviceRepository.addOrUpdateOutput(outputDto);
-    return 'hi';
+    return true;
   }
 }

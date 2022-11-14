@@ -15,4 +15,5 @@ export class DeviceDto extends DTOVerification<DeviceDto>() {
 
   outputs?: OutputDto[];
   companyId?: string;
+  _id?: string;
 }

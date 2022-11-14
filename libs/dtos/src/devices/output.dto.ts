@@ -9,7 +9,7 @@ export class OutputDto extends DTOVerification<OutputDto>() {
 
   @ApiProperty({ required: true })
   @IsMongoId()
-  deviceId: string;
+  _id: string;
 
   @ApiProperty({ required: false })
   @IsString()
