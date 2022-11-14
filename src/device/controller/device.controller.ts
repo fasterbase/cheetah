@@ -1,6 +1,6 @@
 import { DeviceService } from '../services/device.service';
-import { DeviceByIdDto, DeviceDto, OutputDto } from '@cheetah/dtos/devices';
-import { ActionAccepted, Pagination } from '@cheetah/dtos';
+import { DeviceByIdDto, DeviceDto } from '@cheetah/dtos/devices';
+import { Pagination } from '@cheetah/dtos';
 import {
   Body,
   Controller,
@@ -9,7 +9,6 @@ import {
   HttpStatus,
   Param,
   Post,
-  UseFilters,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { LoggerService } from '@cheetah/logger';
@@ -54,14 +53,5 @@ export class DeviceController {
     });
     if (data) return DeviceDto.validate(data);
     throw new HttpException('Device not found', HttpStatus.NOT_FOUND);
-  }
-
-  @Post('/output')
-  async addOrUpdateOutput(
-    @Body() outputDto: OutputDto,
-  ): Promise<typeof ActionAccepted> {
-    this.logger.log('addNewOutput called', { outputDto });
-    this.deviceService.addOrUpdateOutput(outputDto);
-    return ActionAccepted;
   }
 }

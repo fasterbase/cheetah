@@ -5,7 +5,8 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { DeviceRepository } from '../repositories/device.repository';
 import { LoggerService } from '@cheetah/logger';
-import { OutputBlockRepository } from '../repositories/output.block.repository';
+import { OutputBlockRepository } from '../repositories/blocks/output.block.repository';
+
 @Injectable()
 export class DeviceService {
   constructor(
@@ -48,7 +49,6 @@ export class DeviceService {
 
   async addOrUpdateOutput(outputDto: OutputDto): Promise<boolean> {
     outputDto.companyId = 'STATIC_CID';
-    await this.outputBlockRepository.addOrUpdateOutput(outputDto);
-    return true;
+    return await this.outputBlockRepository.addOrUpdateOutput(outputDto);
   }
 }

@@ -2,9 +2,9 @@ import { DeviceDto, OutputDto } from '@cheetah/dtos/devices';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Device, DeviceDocument } from '../schemas/device.schema';
+import { Device, DeviceDocument } from '../../schemas/device.schema';
 import { nanoid } from 'nanoid';
-import { DeviceRepository } from './device.repository';
+import { DeviceRepository } from '../device.repository';
 
 @Injectable()
 export class OutputBlockRepository {
@@ -19,8 +19,9 @@ export class OutputBlockRepository {
       companyId: outputDto.companyId,
       filter: { _id: outputDto._id },
     });
+    if (!device) return null;
     let isOutPutExist = false;
-    if (device?.outputs?.length) {
+    if (device.outputs?.length) {
       isOutPutExist =
         device.outputs.findIndex((output) => output.key === outputDto.key) ===
         -1
@@ -49,5 +50,7 @@ export class OutputBlockRepository {
         },
       );
     }
+
+    return true;
   }
 }
