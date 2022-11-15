@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { DeviceRepository } from '../../repositories/device.repository';
 import { LoggerService } from '@cheetah/logger';
 import { OutputRepository } from '../../repositories/blocks/output.repository';
+import { Segment, SegmentMapper } from '@cheetah/constants';
 
 @Injectable()
 export class ConidtionService {
@@ -17,6 +18,12 @@ export class ConidtionService {
   ) {}
 
   async getSegmentList(): Promise<SegmentDto[]> {
-    return [];
+    return Object.keys(SegmentMapper).map((key) => {
+      const segment = key as unknown as Segment;
+      return {
+        name: SegmentMapper[key],
+        value: segment,
+      };
+    });
   }
 }

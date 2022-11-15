@@ -29,9 +29,8 @@ export class DeviceConditionController {
     this.logger.log('getSegments called');
     const data = await this.conidtionService.getSegmentList();
     return {
-      data: SegmentDto.arrayValidate(data),
+      data,
       more: false,
     };
-    throw new HttpException('Device not found', HttpStatus.NOT_FOUND);
   }
 }
