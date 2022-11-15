@@ -16,6 +16,8 @@
     "@cheetah/error-handler/(.*)": "<rootDir>/../libs/error-handler/src/$1",
     "@cheetah/error-handler": "<rootDir>/../libs/error-handler/src",
     "@cheetah/logger/(.*)": "<rootDir>/../libs/logger/src/$1",
-    "@cheetah/logger": "<rootDir>/../libs/logger/src"
+    "@cheetah/logger": "<rootDir>/../libs/logger/src",
+    "@cheetah/constants/(.*)": "<rootDir>/../libs/constants/src/$1",
+    "@cheetah/constants": "<rootDir>/../libs/constants/src"
   }
 }

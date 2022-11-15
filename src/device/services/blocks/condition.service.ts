@@ -1,5 +1,5 @@
-import { DeviceDto, OutputDto } from '@cheetah/dtos/devices';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { SegmentDto } from '@cheetah/dtos/devices';
+import { Injectable } from '@nestjs/common';
 import { Device, DeviceDocument } from '../../schemas/device.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -8,7 +8,7 @@ import { LoggerService } from '@cheetah/logger';
 import { OutputRepository } from '../../repositories/blocks/output.repository';
 
 @Injectable()
-export class DeviceService {
+export class ConidtionService {
   constructor(
     private readonly logger: LoggerService,
     private readonly deviceRepository: DeviceRepository,
@@ -16,45 +16,7 @@ export class DeviceService {
     @InjectModel(Device.name) private deviceModel: Model<DeviceDocument>,
   ) {}
 
-  async addNewDevice(deviceDto: DeviceDto): Promise<Device> {
-    deviceDto.companyId = 'STATIC_CID';
-    const existDevice = await this.deviceRepository.findOne({
-      companyId: deviceDto.companyId,
-      filter: { name: deviceDto.name },
-    });
-    if (!existDevice) return await this.deviceRepository.insertOne(deviceDto);
-    throw new HttpException('Device is already exist', HttpStatus.CONFLICT);
-  }
-
-  async getDevices(options: {
-    companyId: Partial<DeviceDto['companyId']>;
-  }): Promise<Device[]> {
-    const { companyId } = options;
-    return await this.deviceRepository.findMany({
-      companyId,
-    });
-  }
-
-  async getDevice(options: {
-    companyId: Partial<DeviceDto['companyId']>;
-    deviceId: string;
-  }): Promise<Device> {
-    const { companyId, deviceId } = options;
-    const data = await this.deviceRepository.findOne({
-      companyId,
-      filter: { _id: deviceId },
-    });
-    return data;
-  }
-
-  async addOrUpdateOutput(outputDto: OutputDto): Promise<boolean> {
-    outputDto.companyId = 'STATIC_CID';
-    outputDto.active = true;
-    return await this.outputBlockRepository.addOrUpdateOutput(outputDto);
-  }
-
-  async updateActiveStatus(outputDto: OutputDto): Promise<boolean> {
-    outputDto.companyId = 'STATIC_CID';
-    return await this.outputBlockRepository.updateActiveStatus(outputDto);
+  async getSegmentList(): Promise<SegmentDto[]> {
+    return [];
   }
 }

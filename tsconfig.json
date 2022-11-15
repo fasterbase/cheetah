@@ -18,10 +18,24 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@cheetah/dtos": ["libs/dtos/src"],
-      "@cheetah/dtos/*": ["libs/dtos/src/*"],
-      "@cheetah/logger": ["libs/logger/src"],
-      "@cheetah/logger/*": ["libs/logger/src/*"]
+      "@cheetah/dtos": [
+        "libs/dtos/src"
+      ],
+      "@cheetah/dtos/*": [
+        "libs/dtos/src/*"
+      ],
+      "@cheetah/logger": [
+        "libs/logger/src"
+      ],
+      "@cheetah/logger/*": [
+        "libs/logger/src/*"
+      ],
+      "@cheetah/constants": [
+        "libs/constants/src"
+      ],
+      "@cheetah/constants/*": [
+        "libs/constants/src/*"
+      ]
     }
   }
 }

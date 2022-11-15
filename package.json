@@ -10,6 +10,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
+    "seeder": "node dist/src/main init",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -90,7 +91,8 @@
     "moduleNameMapper": {
       "^@cheetah/dtos(|/.*)$": "<rootDir>/libs/dtos/src/$1",
       "^@cheetah/error-handler(|/.*)$": "<rootDir>/libs/error-handler/src/$1",
-      "^@cheetah/logger(|/.*)$": "<rootDir>/libs/logger/src/$1"
+      "^@cheetah/logger(|/.*)$": "<rootDir>/libs/logger/src/$1",
+      "^@cheetah/constants(|/.*)$": "<rootDir>/libs/constants/src/$1"
     }
   }
 }

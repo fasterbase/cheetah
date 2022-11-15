@@ -1,18 +1,16 @@
-import { DeviceDto, OutputDto } from '@cheetah/dtos/devices';
+import { DeviceDto } from '@cheetah/dtos/devices';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Device, DeviceDocument } from '../schemas/device.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { DeviceRepository } from '../repositories/device.repository';
 import { LoggerService } from '@cheetah/logger';
-import { OutputRepository } from '../repositories/blocks/output.repository';
 
 @Injectable()
 export class DeviceService {
   constructor(
     private readonly logger: LoggerService,
     private readonly deviceRepository: DeviceRepository,
-    private readonly outputBlockRepository: OutputRepository,
     @InjectModel(Device.name) private deviceModel: Model<DeviceDocument>,
   ) {}
 
@@ -45,16 +43,5 @@ export class DeviceService {
       filter: { _id: deviceId },
     });
     return data;
-  }
-
-  async addOrUpdateOutput(outputDto: OutputDto): Promise<boolean> {
-    outputDto.companyId = 'STATIC_CID';
-    outputDto.active = true;
-    return await this.outputBlockRepository.addOrUpdateOutput(outputDto);
-  }
-
-  async updateActiveStatus(outputDto: OutputDto): Promise<boolean> {
-    outputDto.companyId = 'STATIC_CID';
-    return await this.outputBlockRepository.updateActiveStatus(outputDto);
   }
 }
