@@ -15,20 +15,9 @@ export class OutputBlockRepository {
 
   async addOrUpdateOutput(outputDto: OutputDto) {
     //@todo optimize query
-    const device = await this.deviceRepository.findOne({
-      companyId: outputDto.companyId,
-      filter: { _id: outputDto._id },
-    });
-    if (!device) return null;
-    let isOutPutExist = false;
-    if (device.outputs?.length) {
-      isOutPutExist =
-        device.outputs.findIndex((output) => output.key === outputDto.key) ===
-        -1
-          ? false
-          : true;
-    }
-    if (isOutPutExist) {
+    const isOutputExist = await this.isOutputExist(outputDto);
+    if (isOutputExist === null) return false;
+    if (isOutputExist) {
       await this.deviceModel.updateOne(
         {
           _id: outputDto._id,
@@ -45,12 +34,49 @@ export class OutputBlockRepository {
         },
         {
           $push: {
-            outputs: { key: outputDto.key || nanoid(), name: outputDto.name },
+            outputs: {
+              key: outputDto.key || nanoid(),
+              name: outputDto.name,
+              active: outputDto.active,
+            },
           },
         },
       );
     }
 
     return true;
+  }
+
+  async updateActiveStatus(outputDto: OutputDto): Promise<boolean> {
+    const isOutputExist = await this.isOutputExist(outputDto);
+    if (isOutputExist) {
+      await this.deviceModel.updateOne(
+        {
+          _id: outputDto._id,
+          companyId: outputDto.companyId,
+          'outputs.name': outputDto.name,
+        },
+        { $set: { 'outputs.$.active': outputDto.active } },
+      );
+      return true;
+    }
+    return false;
+  }
+
+  async isOutputExist(outputDto: OutputDto): Promise<boolean> {
+    const device = await this.deviceRepository.findOne({
+      companyId: outputDto.companyId,
+      filter: { _id: outputDto._id },
+    });
+    if (!device) return null;
+    let isOutPutExist = false;
+    if (device.outputs?.length) {
+      isOutPutExist =
+        device.outputs.findIndex((output) => output.name === outputDto.name) ===
+        -1
+          ? false
+          : true;
+    }
+    return isOutPutExist;
   }
 }

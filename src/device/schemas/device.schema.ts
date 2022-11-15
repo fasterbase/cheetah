@@ -7,8 +7,11 @@ export class Output {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ unique: true, required: false })
+  @Prop({ unique: true, required: true })
   key: string;
+
+  @Prop({ type: Boolean, required: true, default: true })
+  active: boolean;
 }
 @Schema()
 export class Device {

@@ -6,7 +6,7 @@ import { createDevice } from './mock/device';
 
 let app: INestApplication;
 let deviceId: string;
-
+jest.setTimeout(60000);
 beforeAll(async () => {
   const moduleFixture: TestingModule = await Test.createTestingModule({
     imports: [AppModule],
@@ -76,5 +76,24 @@ describe('DeviceBlockOutPutController (e2e)', () => {
       })
       .expect(200);
     expect(data?.body?.outputs[0]?.name).toBe('test_output');
+  });
+
+  it('[Deactive output][success][200] /device/block/output/update-active-status (PUT)', async () => {
+    await request(app.getHttpServer())
+      .put(`/device/block/output/update-active-status`)
+      .send({
+        name: 'test_output',
+        _id: deviceId,
+        active: false,
+      })
+      .expect(200);
+  });
+
+  it('[Check if output deactived][success][201] /device (GET)', async () => {
+    const data = await request(app.getHttpServer())
+      .get(`/device/${deviceId}`)
+      .expect(200);
+    console.log('here', data.body.outputs[0]);
+    expect(data.body.outputs[0].active).toBe(false);
   });
 });

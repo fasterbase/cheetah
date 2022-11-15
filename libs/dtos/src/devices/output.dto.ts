@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsMongoId, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsMongoId, IsOptional, IsString } from 'class-validator';
 import { DTOVerification } from '../base.dto';
 
 export class OutputDto extends DTOVerification<OutputDto>() {
@@ -15,6 +15,11 @@ export class OutputDto extends DTOVerification<OutputDto>() {
   @IsString()
   @IsOptional()
   key?: string;
+
+  @ApiProperty({ required: false })
+  @IsBoolean()
+  @IsOptional()
+  active?: boolean;
 
   companyId?: string;
 }
