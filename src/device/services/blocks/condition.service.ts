@@ -1,11 +1,11 @@
 import { DeviceDto, OutputDto } from '@cheetah/dtos/devices';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Device, DeviceDocument } from '../schemas/device.schema';
+import { Device, DeviceDocument } from '../../schemas/device.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { DeviceRepository } from '../repositories/device.repository';
+import { DeviceRepository } from '../../repositories/device.repository';
 import { LoggerService } from '@cheetah/logger';
-import { OutputRepository } from '../repositories/blocks/output.repository';
+import { OutputRepository } from '../../repositories/blocks/output.repository';
 
 @Injectable()
 export class DeviceService {

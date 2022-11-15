@@ -7,7 +7,7 @@ import { nanoid } from 'nanoid';
 import { DeviceRepository } from '../device.repository';
 
 @Injectable()
-export class OutputBlockRepository {
+export class OutputRepository {
   constructor(
     private readonly deviceRepository: DeviceRepository,
     @InjectModel(Device.name) private deviceModel: Model<DeviceDocument>,

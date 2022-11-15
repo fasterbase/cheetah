@@ -93,7 +93,6 @@ describe('DeviceBlockOutPutController (e2e)', () => {
     const data = await request(app.getHttpServer())
       .get(`/device/${deviceId}`)
       .expect(200);
-    console.log('here', data.body.outputs[0]);
     expect(data.body.outputs[0].active).toBe(false);
   });
 });

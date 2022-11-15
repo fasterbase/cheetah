@@ -1,4 +1,4 @@
-import { DeviceService } from './../../services/device.service';
+import { DeviceService } from '../../services/device.service';
 import { OutputDto } from '@cheetah/dtos/devices';
 import { ActionAccepted } from '@cheetah/dtos';
 import {
@@ -12,14 +12,14 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { LoggerService } from '@cheetah/logger';
 
-@ApiTags('Device Blocks Output')
-@Controller('device/block/output')
-export class DeviceOutPutController {
+@ApiTags('Device Blocks Condition')
+@Controller('device/block/condition')
+export class DeviceConditionController {
   constructor(
     private readonly logger: LoggerService,
     private readonly deviceService: DeviceService,
   ) {
-    this.logger.setContext(DeviceOutPutController.name);
+    this.logger.setContext(DeviceConditionController.name);
   }
 
   @Put()
