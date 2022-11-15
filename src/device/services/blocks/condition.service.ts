@@ -1,21 +1,12 @@
-import { SegmentDto } from '@cheetah/dtos/devices';
-import { Injectable } from '@nestjs/common';
-import { Device, DeviceDocument } from '../../schemas/device.schema';
-import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
-import { DeviceRepository } from '../../repositories/device.repository';
-import { LoggerService } from '@cheetah/logger';
-import { OutputRepository } from '../../repositories/blocks/output.repository';
+import { CustomSegmentDto, SegmentDto } from '@cheetah/dtos/devices';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Segment, SegmentMapper } from '@cheetah/constants';
+import { ConditionRepository } from './../../repositories/blocks/condition.repository';
+import { nanoid } from 'nanoid';
 
 @Injectable()
 export class ConidtionService {
-  constructor(
-    private readonly logger: LoggerService,
-    private readonly deviceRepository: DeviceRepository,
-    private readonly outputBlockRepository: OutputRepository,
-    @InjectModel(Device.name) private deviceModel: Model<DeviceDocument>,
-  ) {}
+  constructor(private readonly conditionRepository: ConditionRepository) {}
 
   async getSegmentList(): Promise<SegmentDto[]> {
     return Object.keys(SegmentMapper).map((key) => {
@@ -25,5 +16,27 @@ export class ConidtionService {
         value: segment,
       };
     });
+  }
+
+  async createCustomSegmentList(
+    customSegmentDto: CustomSegmentDto,
+  ): Promise<CustomSegmentDto> {
+    const isCustomSegmentExist =
+      await this.conditionRepository.findOneCustomSegment(customSegmentDto);
+
+    if (isCustomSegmentExist)
+      throw new HttpException('duplicate data', HttpStatus.BAD_REQUEST);
+
+    if (this.conditionRepository.findOneCustomSegment(customSegmentDto))
+      customSegmentDto.value = nanoid();
+    return await this.conditionRepository.insertOneCustomSegment(
+      customSegmentDto,
+    );
+  }
+
+  async getCustomSegmentList(
+    companyId: CustomSegmentDto['companyId'],
+  ): Promise<CustomSegmentDto[]> {
+    return await this.conditionRepository.findCustomSegment(companyId);
   }
 }

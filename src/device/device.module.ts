@@ -14,6 +14,8 @@ import { DeviceOutPutController } from './controller/blocks/output.controller';
 import { DeviceConditionController } from './controller/blocks/condition.controller';
 import { ConidtionService } from './services/blocks/condition.service';
 import { OutputService } from './services/blocks/output.service';
+import { Segment, SegmentSchema } from './schemas/segment.schema';
+import { ConditionRepository } from './repositories/blocks/condition.repository';
 
 @Module({
   imports: [
@@ -28,7 +30,10 @@ import { OutputService } from './services/blocks/output.service';
       }),
       inject: [ConfigService],
     }),
-    MongooseModule.forFeature([{ name: Device.name, schema: DeviceSchema }]),
+    MongooseModule.forFeature([
+      { name: Device.name, schema: DeviceSchema },
+      { name: Segment.name, schema: SegmentSchema },
+    ]),
     LoggerModule,
   ],
   controllers: [
@@ -43,6 +48,7 @@ import { OutputService } from './services/blocks/output.service';
     ConidtionService,
     OutputRepository,
     DeviceRepository,
+    ConditionRepository,
   ],
 })
 export class DeviceModule {}

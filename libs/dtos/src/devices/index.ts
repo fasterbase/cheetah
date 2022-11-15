@@ -1,3 +1,4 @@
+export * from './custom-segment.dto';
 export * from './device.dto';
 export * from './device-by-id.dto';
 export * from './output.dto';

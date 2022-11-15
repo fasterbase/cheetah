@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { LoggerService } from '@cheetah/logger';
-import { OutputService } from 'src/device/services/blocks/output.service';
+import { OutputService } from './../../services/blocks/output.service';
 
 @ApiTags('Device Blocks Output')
 @Controller('device/block/output')

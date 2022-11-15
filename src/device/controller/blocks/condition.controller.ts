@@ -1,17 +1,9 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpException,
-  HttpStatus,
-  Put,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Put } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoggerService } from '@cheetah/logger';
 import { ConidtionService } from './../../services/blocks/condition.service';
-import { SegmentDto } from '@cheetah/dtos/devices';
-import { Pagination } from '@cheetah/dtos';
+import { CustomSegmentDto, SegmentDto } from '@cheetah/dtos/devices';
+import { PaginationDto } from '@cheetah/dtos';
 
 @ApiTags('Device Blocks Condition')
 @Controller('device/block/condition')
@@ -24,12 +16,35 @@ export class DeviceConditionController {
   }
 
   @Get('segments')
-  @ApiResponse({ type: [SegmentDto] })
-  async getSegments(): Promise<Pagination<SegmentDto>> {
+  @ApiResponse({ type: PaginationDto<SegmentDto> })
+  async getSegments(): Promise<PaginationDto<SegmentDto>> {
     this.logger.log('getSegments called');
     const data = await this.conidtionService.getSegmentList();
     return {
       data,
+      more: false,
+    };
+  }
+  @Post('custom-segments')
+  @ApiResponse({ type: CustomSegmentDto })
+  async createCustomSegment(
+    @Body() customSegmentDto: CustomSegmentDto,
+  ): Promise<CustomSegmentDto> {
+    this.logger.log('createCustomSegment called');
+    customSegmentDto.companyId = 'STATIC_CID';
+    const data = await this.conidtionService.createCustomSegmentList(
+      customSegmentDto,
+    );
+    return CustomSegmentDto.validate(data);
+  }
+
+  @Get('custom-segments')
+  @ApiResponse({ type: PaginationDto<CustomSegmentDto> })
+  async getCustomSegmentList(): Promise<PaginationDto<CustomSegmentDto>> {
+    this.logger.log('getCustomSegments called');
+    const data = await this.conidtionService.getCustomSegmentList('STATIC_CID');
+    return {
+      data: CustomSegmentDto.arrayValidate(data),
       more: false,
     };
   }

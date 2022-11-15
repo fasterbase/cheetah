@@ -1,6 +1,5 @@
 import { DeviceService } from '../services/device.service';
 import { DeviceByIdDto, DeviceDto } from '@cheetah/dtos/devices';
-import { Pagination } from '@cheetah/dtos';
 import {
   Body,
   Controller,
@@ -12,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { LoggerService } from '@cheetah/logger';
+import { PaginationDto } from '@cheetah/dtos';
 
 @ApiTags('Device')
 @Controller('device')
@@ -31,7 +31,7 @@ export class DeviceController {
   }
 
   @Get('list')
-  async getAllDevices(): Promise<Pagination<DeviceDto>> {
+  async getAllDevices(): Promise<PaginationDto<DeviceDto>> {
     this.logger.log('getAllDevices called');
     const data = await this.deviceService.getDevices({
       companyId: 'STATIC_CID',

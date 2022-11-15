@@ -56,7 +56,7 @@ describe('DeviceController (e2e)', () => {
   });
 });
 
-describe('DeviceBlockOutPutController (e2e)', () => {
+describe('DeviceOutPutController (e2e)', () => {
   it('[Add new output][success][201] /device/block/output/ (PUT)', async () => {
     await request(app.getHttpServer())
       .put('/device/block/output/')
@@ -94,5 +94,13 @@ describe('DeviceBlockOutPutController (e2e)', () => {
       .get(`/device/${deviceId}`)
       .expect(200);
     expect(data.body.outputs[0].active).toBe(false);
+  });
+});
+
+describe('DeviceConditionController (e2e)', () => {
+  it('[Get Segments][success][200] /device/block/condition/segments (GET)', async () => {
+    await request(app.getHttpServer())
+      .get('/device/block/condition/segments')
+      .expect(200);
   });
 });
