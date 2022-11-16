@@ -33,4 +33,16 @@ export class ConditionRepository {
       JSON.stringify(await this.segmentModel.find({ companyId })),
     );
   }
+
+  async removeSegment(customSegmentDto: CustomSegmentDto): Promise<boolean> {
+    await this.segmentModel.deleteOne({ customSegmentDto });
+    return true;
+  }
+
+  async removeTestData() {
+    await this.removeSegment({
+      name: '_test_segment',
+      companyId: 'STATIC_CID',
+    });
+  }
 }

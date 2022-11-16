@@ -103,4 +103,20 @@ describe('DeviceConditionController (e2e)', () => {
       .get('/device/block/condition/segments')
       .expect(200);
   });
+
+  it('[Insert Custom Segments][success][200] /device/block/condition/custom-segments (POST)', async () => {
+    await request(app.getHttpServer())
+      .post('/device/block/condition/custom-segments')
+      .send({
+        name: '_test_segment',
+      })
+      .expect(200);
+  });
+
+  it('[Get Custom Segments][success][200] /device/block/condition/custom-segments (GET)', async () => {
+    const data = await request(app.getHttpServer())
+      .get('/device/block/condition/custom-segments')
+      .expect(200);
+    expect(Array.isArray(data.body.data)).toBe(true);
+  });
 });

@@ -7,6 +7,6 @@ export class CustomSegmentDto extends DTOVerification<CustomSegmentDto>() {
   @IsString()
   name: string;
 
-  value: string;
+  value?: string;
   companyId: string;
 }
