@@ -1,6 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform, TransformFnParams } from 'class-transformer';
-import { IsOptional, IsString, Min, MinLength } from 'class-validator';
+import { Transform, TransformFnParams, Type } from 'class-transformer';
+import {
+  IsOptional,
+  IsString,
+  MinLength,
+  ValidateNested,
+} from 'class-validator';
 import { DTOVerification } from '../base.dto';
 import { OutputDto } from './output.dto';
 
@@ -17,7 +22,9 @@ export class DeviceDto extends DTOVerification<DeviceDto>() {
   @Transform(({ value }: TransformFnParams) => value?.trim())
   description?: string;
 
+  @ApiProperty({ isArray: true, type: () => OutputDto })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => OutputDto)
   outputs?: OutputDto[];
-  companyId?: string;
-  _id?: string;
 }
