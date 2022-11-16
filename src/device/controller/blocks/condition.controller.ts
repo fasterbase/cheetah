@@ -48,4 +48,15 @@ export class DeviceConditionController {
       more: false,
     };
   }
+
+  @Get('operations')
+  @ApiResponse({ type: PaginationDto<SegmentDto> })
+  async getOperations(): Promise<PaginationDto<SegmentDto>> {
+    this.logger.log('getSegments called');
+    const data = await this.conidtionService.getSegmentList();
+    return {
+      data,
+      more: false,
+    };
+  }
 }

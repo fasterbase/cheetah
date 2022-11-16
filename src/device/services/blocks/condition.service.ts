@@ -1,8 +1,14 @@
 import { CustomSegmentDto, SegmentDto } from '@cheetah/dtos/devices';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Segment, SegmentMapper } from '@cheetah/constants';
+import {
+  Operation,
+  OperationMapper,
+  Segment,
+  SegmentMapper,
+} from '@cheetah/constants';
 import { ConditionRepository } from './../../repositories/blocks/condition.repository';
 import { nanoid } from 'nanoid';
+import { OperationDto } from '@cheetah/dtos/devices/operation.dto';
 
 @Injectable()
 export class ConidtionService {
@@ -38,5 +44,15 @@ export class ConidtionService {
     companyId: CustomSegmentDto['companyId'],
   ): Promise<CustomSegmentDto[]> {
     return await this.conditionRepository.findCustomSegment(companyId);
+  }
+
+  async getOperationsList(): Promise<OperationDto[]> {
+    return Object.keys(OperationMapper).map((key) => {
+      const operation = key as unknown as Operation;
+      return {
+        name: OperationMapper[key],
+        value: operation,
+      };
+    });
   }
 }
