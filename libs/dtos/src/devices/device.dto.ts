@@ -3,6 +3,7 @@ import { Transform, TransformFnParams, Type } from 'class-transformer';
 import {
   IsOptional,
   IsString,
+  Min,
   MinLength,
   ValidateNested,
 } from 'class-validator';
@@ -27,4 +28,7 @@ export class DeviceDto extends DTOVerification<DeviceDto>() {
   @ValidateNested()
   @Type(() => OutputDto)
   outputs?: OutputDto[];
+
+  companyId?: string;
+  _id?: string;
 }
