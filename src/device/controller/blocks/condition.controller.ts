@@ -2,7 +2,12 @@ import { Body, Controller, Get, Post, Put } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoggerService } from '@cheetah/logger';
 import { ConidtionService } from './../../services/blocks/condition.service';
-import { CustomSegmentDto, SegmentDto } from '@cheetah/dtos/devices';
+import {
+  CompareDto,
+  CustomSegmentDto,
+  OperationDto,
+  SegmentDto,
+} from '@cheetah/dtos/devices';
 import { PaginationDto } from '@cheetah/dtos';
 
 @ApiTags('Device Blocks Condition')
@@ -50,10 +55,21 @@ export class DeviceConditionController {
   }
 
   @Get('operations')
-  @ApiResponse({ type: PaginationDto<SegmentDto> })
-  async getOperations(): Promise<PaginationDto<SegmentDto>> {
-    this.logger.log('getSegments called');
-    const data = await this.conidtionService.getSegmentList();
+  @ApiResponse({ type: PaginationDto<OperationDto> })
+  async getOperations(): Promise<PaginationDto<OperationDto>> {
+    this.logger.log('getOperations called');
+    const data = await this.conidtionService.getOperationsList();
+    return {
+      data,
+      more: false,
+    };
+  }
+
+  @Get('compares')
+  @ApiResponse({ type: PaginationDto<CompareDto> })
+  async getCompares(): Promise<PaginationDto<CompareDto>> {
+    this.logger.log('getCompares called');
+    const data = await this.conidtionService.getComparesList();
     return {
       data,
       more: false,

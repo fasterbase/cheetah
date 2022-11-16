@@ -1,6 +1,12 @@
-import { CustomSegmentDto, SegmentDto } from '@cheetah/dtos/devices';
+import {
+  CompareDto,
+  CustomSegmentDto,
+  SegmentDto,
+} from '@cheetah/dtos/devices';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import {
+  Compare,
+  CompareMapper,
   Operation,
   OperationMapper,
   Segment,
@@ -52,6 +58,16 @@ export class ConidtionService {
       return {
         name: OperationMapper[key],
         value: operation,
+      };
+    });
+  }
+
+  async getComparesList(): Promise<CompareDto[]> {
+    return Object.keys(CompareMapper).map((key) => {
+      const compare = key as unknown as Compare;
+      return {
+        name: CompareMapper[key],
+        value: compare,
       };
     });
   }
