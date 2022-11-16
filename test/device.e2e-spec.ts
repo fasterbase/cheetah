@@ -53,6 +53,7 @@ describe('DeviceController (e2e)', () => {
       .expect(200);
 
     expect(Array.isArray(data.body.data)).toBe(true);
+    expect(data.body.data.length).not.toBeLessThan(0);
   });
 });
 
@@ -108,9 +109,9 @@ describe('DeviceConditionController (e2e)', () => {
     await request(app.getHttpServer())
       .post('/device/block/condition/custom-segments')
       .send({
-        name: '_test_segment',
+        name: '_test',
       })
-      .expect(200);
+      .expect(201);
   });
 
   it('[Get Custom Segments][success][200] /device/block/condition/custom-segments (GET)', async () => {
@@ -118,5 +119,22 @@ describe('DeviceConditionController (e2e)', () => {
       .get('/device/block/condition/custom-segments')
       .expect(200);
     expect(Array.isArray(data.body.data)).toBe(true);
+    expect(data.body.data.length).not.toBeLessThan(0);
+  });
+
+  it('[Get Operations][success][200] /device/block/condition/operations (GET)', async () => {
+    const data = await request(app.getHttpServer())
+      .get('/device/block/condition/operations')
+      .expect(200);
+    expect(Array.isArray(data.body.data)).toBe(true);
+    expect(data.body.data.length).not.toBeLessThan(0);
+  });
+
+  it('[Get Compares][success][200] /device/block/condition/compares (GET)', async () => {
+    const data = await request(app.getHttpServer())
+      .get('/device/block/condition/compares')
+      .expect(200);
+    expect(Array.isArray(data.body.data)).toBe(true);
+    expect(data.body.data.length).not.toBeLessThan(0);
   });
 });
