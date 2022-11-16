@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { GatewayModule } from './gateway/gateway.module';
 import { DeviceModule } from './device/device.module';
 import { AuthorizeModule } from './authorize/authorize.module';
+import { ExtensionsController } from './extensions/extensions.controller';
+import { ExtensionsService } from './extensions/extensions.service';
 import * as winston from 'winston';
 
 @Module({
@@ -23,7 +25,7 @@ import * as winston from 'winston';
     DeviceModule,
     AuthorizeModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, ExtensionsController],
+  providers: [AppService, ExtensionsService],
 })
 export class AppModule {}
