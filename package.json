@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "generate": "rm -rf ../clinet-sdk && swagger-codegen generate -i http://localhost:3000/api-json -l typescript-axios -o ../clinet-sdk",
-    "sdk:publish":"cd ../client-sdk && git push -u origin master",
+    "sdk:publish": "cd ../client-sdk && git push -u origin master",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
@@ -97,7 +97,8 @@
       "^@cheetah/dtos(|/.*)$": "<rootDir>/libs/dtos/src/$1",
       "^@cheetah/error-handler(|/.*)$": "<rootDir>/libs/error-handler/src/$1",
       "^@cheetah/logger(|/.*)$": "<rootDir>/libs/logger/src/$1",
-      "^@cheetah/constants(|/.*)$": "<rootDir>/libs/constants/src/$1"
+      "^@cheetah/constants(|/.*)$": "<rootDir>/libs/constants/src/$1",
+      "^@cheetah/common(|/.*)$": "<rootDir>/libs/common/src/$1"
     }
   }
 }

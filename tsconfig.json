@@ -35,6 +35,12 @@
       ],
       "@cheetah/constants/*": [
         "libs/constants/src/*"
+      ],
+      "@cheetah/common": [
+        "libs/common/src"
+      ],
+      "@cheetah/common/*": [
+        "libs/common/src/*"
       ]
     }
   }

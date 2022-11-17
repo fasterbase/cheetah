@@ -1,13 +1,13 @@
-import { Module } from '@nestjs/common';
+import { Module, RequestMethod } from '@nestjs/common';
 import { WinstonModule } from 'nest-winston';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GatewayModule } from './gateway/gateway.module';
 import { DeviceModule } from './device/device.module';
 import { AuthorizeModule } from './authorize/authorize.module';
-import { ExtensionsController } from './extensions/extensions.controller';
-import { ExtensionsService } from './extensions/extensions.service';
+import { ExtensionModule } from './extension/extension.module';
 import * as winston from 'winston';
+import { FilterDataMiddleware } from '@cheetah/common/middlewares';
 
 @Module({
   imports: [
@@ -24,8 +24,15 @@ import * as winston from 'winston';
     GatewayModule,
     DeviceModule,
     AuthorizeModule,
+    ExtensionModule,
   ],
-  controllers: [AppController, ExtensionsController],
-  providers: [AppService, ExtensionsService],
+  controllers: [AppController],
+  providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer): void {
+    consumer
+      .apply([FilterDataMiddleware])
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}

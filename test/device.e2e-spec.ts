@@ -1,11 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
+import * as fs from 'fs';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { AppModule } from '../src/app.module';
 import { createDevice } from './mock/device';
 
 let app: INestApplication;
 let deviceId: string;
+
 jest.setTimeout(60000);
 beforeAll(async () => {
   const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -28,6 +30,7 @@ describe('DeviceController (e2e)', () => {
       .send(createDevice)
       .expect(201);
     deviceId = data.body._id;
+    fs.writeFileSync('./deviceId.tst', deviceId);
   });
 
   it('[Create a device][duplicate][409] /device (POST)', () => {

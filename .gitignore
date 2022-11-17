@@ -48,3 +48,5 @@ src/**/*.js.map
 tsconfig.build.tsbuildinfo
 
 src/schema-manager
+
+*.tst

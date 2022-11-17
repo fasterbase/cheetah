@@ -5,7 +5,9 @@
     "ts"
   ],
   "rootDir": "./",
-  "modulePaths": ["<rootDir>"],
+  "modulePaths": [
+    "<rootDir>"
+  ],
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
@@ -19,6 +21,8 @@
     "@cheetah/logger/(.*)": "<rootDir>/../libs/logger/src/$1",
     "@cheetah/logger": "<rootDir>/../libs/logger/src",
     "@cheetah/constants/(.*)": "<rootDir>/../libs/constants/src/$1",
-    "@cheetah/constants": "<rootDir>/../libs/constants/src"
+    "@cheetah/constants": "<rootDir>/../libs/constants/src",
+    "@cheetah/common/(.*)": "<rootDir>/../libs/common/src/$1",
+    "@cheetah/common": "<rootDir>/../libs/common/src"
   }
 }

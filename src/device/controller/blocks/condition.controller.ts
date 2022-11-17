@@ -24,6 +24,7 @@ export class DeviceConditionController {
   @ApiResponse({ type: PaginationDto<SegmentDto> })
   async getSegments(): Promise<PaginationDto<SegmentDto>> {
     this.logger.log('getSegments called');
+    console.log('bye', SegmentDto, CustomSegmentDto);
     const data = await this.conidtionService.getSegmentList();
     return {
       data,
@@ -37,10 +38,9 @@ export class DeviceConditionController {
   ): Promise<CustomSegmentDto> {
     this.logger.log('createCustomSegment called');
     customSegmentDto.companyId = 'STATIC_CID';
-    const data = await this.conidtionService.createCustomSegmentList(
+    return await this.conidtionService.createCustomSegmentList(
       customSegmentDto,
     );
-    return CustomSegmentDto.validate(data);
   }
 
   @Get('custom-segments')
@@ -49,7 +49,7 @@ export class DeviceConditionController {
     this.logger.log('getCustomSegments called');
     const data = await this.conidtionService.getCustomSegmentList('STATIC_CID');
     return {
-      data: CustomSegmentDto.arrayValidate(data),
+      data,
       more: false,
     };
   }

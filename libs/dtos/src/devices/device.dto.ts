@@ -3,7 +3,6 @@ import { Transform, TransformFnParams, Type } from 'class-transformer';
 import {
   IsOptional,
   IsString,
-  Min,
   MinLength,
   ValidateNested,
 } from 'class-validator';

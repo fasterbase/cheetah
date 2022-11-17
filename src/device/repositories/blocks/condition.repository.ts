@@ -41,7 +41,7 @@ export class ConditionRepository {
 
   async removeTestData() {
     await this.removeSegment({
-      name: '_test_segment',
+      name: '_test',
       companyId: 'STATIC_CID',
     });
   }
