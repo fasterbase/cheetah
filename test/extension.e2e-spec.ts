@@ -24,7 +24,7 @@ it('[Removing Extension Test Data] /extension/test (PUT)', () => {
 });
 
 describe('ExtensionController (e2e)', () => {
-  it('[Create Command][success][201] /extension (POST)', async () => {
+  it('[Create Command][success][201] /extension/command (POST)', async () => {
     const dataToSend: CommandDto = {
       name: '_test',
       deviceId,
@@ -32,14 +32,21 @@ describe('ExtensionController (e2e)', () => {
       parameterValue: '_test',
     };
     await request(app.getHttpServer())
-      .post('/extension')
+      .post('/extension/command')
       .send(dataToSend)
       .expect(201);
   });
 
-  it('[Get Commands List][success][200] /extension (Get)', async () => {
+  it('[Get Commands List][success][200] /extensio/command (Get)', async () => {
     const data = await request(app.getHttpServer())
-      .get('/extension')
+      .get('/extension/command')
+      .expect(200);
+    expect(data.body.data.length).not.toBeLessThan(0);
+  });
+
+  it('[Get Available Action List][success][200] /extension/action-list (Get)', async () => {
+    const data = await request(app.getHttpServer())
+      .get('/extension/action-list')
       .expect(200);
     expect(data.body.data.length).not.toBeLessThan(0);
   });

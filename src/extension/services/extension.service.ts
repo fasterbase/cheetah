@@ -1,4 +1,5 @@
-import { CommandDto } from '@cheetah/dtos/extension';
+import { ActionList, ActionListMapper } from '@cheetah/constants';
+import { ActionListDto, CommandDto } from '@cheetah/dtos/extension';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CommandRepository } from '../repositories/command.repository';
 
@@ -18,6 +19,15 @@ export class ExtensionService {
     return await this.commandRepository.findMany({
       companyId: commandDto.companyId,
       filter: commandDto,
+    });
+  }
+  getAvailableActionStates(): ActionListDto[] {
+    return Object.keys(ActionListMapper).map((key) => {
+      const action = key as unknown as ActionList;
+      return {
+        name: ActionListMapper[key],
+        value: action,
+      };
     });
   }
 }
