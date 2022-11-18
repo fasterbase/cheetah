@@ -1,14 +1,14 @@
-import { ActionList } from '@cheetah/constants/extension';
+import { ActionType } from '@cheetah/constants/extension';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsString } from 'class-validator';
 import { DTOVerification } from '../base.dto';
 
-export class ActionListDto extends DTOVerification<ActionListDto>() {
+export class ActionTypeDto extends DTOVerification<ActionTypeDto>() {
   @ApiProperty({ type: String })
   @IsString()
   name: string;
 
-  @ApiProperty({ enum: ActionList })
-  @IsEnum(ActionList)
-  value: ActionList;
+  @ApiProperty({ enum: ActionType })
+  @IsEnum(ActionType)
+  value: ActionType;
 }

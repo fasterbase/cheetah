@@ -3,6 +3,14 @@ import { HydratedDocument } from 'mongoose';
 
 export type ActionDocument = HydratedDocument<Action>;
 
+export class Actions {
+  @Prop({ required: true })
+  type: string;
+
+  // @Prop({ required: true, enum })
+  // id: string;
+}
+
 @Schema()
 export class Action {
   @Prop({ required: true })
@@ -10,6 +18,9 @@ export class Action {
 
   @Prop({ required: true })
   name: string;
+
+  @Prop({ required: true })
+  deviceId: string;
 
   @Prop({ required: true, type: Boolean })
   isExternal: string;
@@ -19,6 +30,9 @@ export class Action {
 
   @Prop({ required: true })
   source: string;
+
+  @Prop({ required: true })
+  actions: string;
 
   @Prop({ required: true, default: true })
   status: boolean;
