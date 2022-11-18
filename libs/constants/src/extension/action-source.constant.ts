@@ -1,7 +1,7 @@
 export enum ActionSource {
-  'MQTT',
-  'TCP',
-  'UDP',
+  'MQTT' = 'mqtt',
+  'TCP' = 'tcp',
+  'UDP' = 'udp',
 }
 
 export const ActionSourceMapper: { [key in ActionSource]: string } = {

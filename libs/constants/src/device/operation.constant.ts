@@ -1,12 +1,12 @@
 export enum Operation {
-  'Equal',
-  'Greater',
-  'Less',
-  'EqualGreater',
-  'EqualLess',
-  'DiffGreater',
-  'DiffLess',
-  'Custom',
+  'Equal' = 'e',
+  'Greater' = 'g',
+  'Less' = 'l',
+  'EqualGreater' = 'eg',
+  'EqualLess' = 'el',
+  'DiffGreater' = 'dg',
+  'DiffLess' = 'dl',
+  'Custom' = 'c',
 }
 
 export const OperationMapper: { [key in Operation]: string } = {

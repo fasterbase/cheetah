@@ -1,7 +1,7 @@
 export enum Query {
-  'Insert',
-  'Find',
-  'Remove',
+  'Insert' = 'insert',
+  'Find' = 'find',
+  'Remove' = 'remove',
 }
 
 export const QueryMapper: { [key in Query]: string } = {

@@ -1,11 +1,11 @@
 export enum Compare {
-  'Previous',
-  'Past30',
-  'Past60',
-  'Past300',
-  'CustomPeriod',
-  'CustomValue',
-  'CustomUserInput',
+  'Previous' = 1,
+  'Past30' = 2,
+  'Past60' = 3,
+  'Past300' = 4,
+  'CustomPeriod' = 5,
+  'CustomValue' = 6,
+  'CustomUserInput' = 7,
 }
 
 export const CompareMapper: { [key in Compare]: string } = {
