@@ -1,5 +1,14 @@
-import { ActionList, ActionListMapper } from '@cheetah/constants';
-import { ActionListDto, CommandDto } from '@cheetah/dtos/extension';
+import {
+  ActionList,
+  ActionListMapper,
+  ActionSource,
+  ActionSourceMapper,
+} from '@cheetah/constants';
+import {
+  ActionListDto,
+  ActionSourceDto,
+  CommandDto,
+} from '@cheetah/dtos/extension';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CommandRepository } from '../repositories/command.repository';
 
@@ -27,6 +36,16 @@ export class ExtensionService {
       return {
         name: ActionListMapper[key],
         value: action,
+      };
+    });
+  }
+
+  getAvailableActionSource(): ActionSourceDto[] {
+    return Object.keys(ActionSourceMapper).map((key) => {
+      const actionSource = key as unknown as ActionSource;
+      return {
+        name: ActionSourceMapper[key],
+        value: actionSource,
       };
     });
   }

@@ -1,5 +1,9 @@
 import { PaginationDto } from '@cheetah/dtos';
-import { ActionListDto, CommandDto } from '@cheetah/dtos/extension';
+import {
+  ActionListDto,
+  ActionSourceDto,
+  CommandDto,
+} from '@cheetah/dtos/extension';
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ExtensionService } from '../services/extension.service';
 
@@ -25,7 +29,20 @@ export class ExtensionController {
   }
 
   @Get('action-list')
-  getAvailableActionStates(): ActionListDto[] {
-    return this.extensionService.getAvailableActionStates();
+  getAvailableActionStates(): PaginationDto<ActionListDto> {
+    const data = this.extensionService.getAvailableActionStates();
+    return {
+      data,
+      more: false,
+    };
+  }
+
+  @Get('action-source')
+  getAvailableActionSource(): PaginationDto<ActionSourceDto> {
+    const data = this.extensionService.getAvailableActionSource();
+    return {
+      data,
+      more: false,
+    };
   }
 }

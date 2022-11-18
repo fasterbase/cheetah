@@ -50,4 +50,11 @@ describe('ExtensionController (e2e)', () => {
       .expect(200);
     expect(data.body.data.length).not.toBeLessThan(0);
   });
+
+  it('[Get Available Action Source][success][200] /extension/action-source (Get)', async () => {
+    const data = await request(app.getHttpServer())
+      .get('/extension/action-source')
+      .expect(200);
+    expect(data.body.data.length).not.toBeLessThan(0);
+  });
 });
