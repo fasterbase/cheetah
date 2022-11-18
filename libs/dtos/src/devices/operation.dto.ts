@@ -1,4 +1,4 @@
-import { Operation } from '@cheetah/constants';
+import { Operation } from '@cheetah/constants/device';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsString } from 'class-validator';
 import { DTOVerification } from '../base.dto';

@@ -3,7 +3,7 @@ import {
   ActionListMapper,
   ActionSource,
   ActionSourceMapper,
-} from '@cheetah/constants';
+} from '@cheetah/constants/extension';
 import {
   ActionListDto,
   ActionSourceDto,
