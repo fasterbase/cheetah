@@ -8,6 +8,7 @@ import { AuthorizeModule } from './authorize/authorize.module';
 import { ExtensionModule } from './extension/extension.module';
 import * as winston from 'winston';
 import { FilterDataMiddleware } from '@cheetah/common/middlewares';
+import { StorageModule } from './storage/storage.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { FilterDataMiddleware } from '@cheetah/common/middlewares';
     DeviceModule,
     AuthorizeModule,
     ExtensionModule,
+    StorageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
