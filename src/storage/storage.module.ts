@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { configValidationSchema } from './config.schema';
 import { WorkspaceRepository } from './repositories/workspace.repository';
 import { Workspace, WorkspaceSchema } from './schemas/workspace.schema';
+import { StorageTestController } from './controllers/storage.test.controller';
 
 @Module({
   imports: [
@@ -27,6 +28,6 @@ import { Workspace, WorkspaceSchema } from './schemas/workspace.schema';
     LoggerModule,
   ],
   providers: [WorkspaceService, WorkspaceRepository],
-  controllers: [WorkspaceController],
+  controllers: [WorkspaceController, StorageTestController],
 })
 export class StorageModule {}

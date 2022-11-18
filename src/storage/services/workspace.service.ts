@@ -1,5 +1,5 @@
 import { MetaWorkSpaceDto, WorkSpaceDto } from '@cheetah/dtos/storage';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { WorkspaceRepository } from '../repositories/workspace.repository';
 
 @Injectable()
@@ -20,5 +20,10 @@ export class WorkspaceService {
       companyId,
       workSpaceDto,
     });
+  }
+
+  async getWorkSpace(): Promise<MetaWorkSpaceDto> {
+    const companyId = 'STATIC_CID';
+    return this.workspaceRepository.findWorkspace(companyId);
   }
 }

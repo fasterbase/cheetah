@@ -37,7 +37,7 @@ describe('ExtensionController (e2e)', () => {
       .expect(201);
   });
 
-  it('[Get Commands List][success][200] /extensio/command (Get)', async () => {
+  it('[Get Commands List][success][200] /extension/command (Get)', async () => {
     const data = await request(app.getHttpServer())
       .get('/extension/command')
       .expect(200);

@@ -1,5 +1,10 @@
 import { MetaWorkSpaceDto, WorkSpaceDto } from '@cheetah/dtos/storage';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Workspace, WorkspaceDocument } from '../schemas/workspace.schema';
@@ -28,17 +33,43 @@ export class WorkspaceRepository {
     workSpaceDto: WorkSpaceDto;
   }): Promise<MetaWorkSpaceDto> {
     const { companyId, workSpaceDto } = options;
-    await this.workspaceModel.updateOne(
-      { companyId },
-      { $push: { workspaces: workSpaceDto } },
-    );
-    return await this.findWorkspace(companyId);
+    try {
+      const workspace = await this.findWorkspace(companyId);
+      this.validateNewWorkspace(workspace, workSpaceDto.name);
+
+      await this.workspaceModel.updateOne(
+        { companyId },
+        { $push: { workspaces: { name: workSpaceDto.name } } },
+      );
+
+      workspace.workspaces.push({ name: workSpaceDto.name });
+
+      return workspace;
+    } catch (e) {
+      return e;
+    }
   }
 
   async findWorkspace(companyId: string): Promise<MetaWorkSpaceDto> {
     const workspace = await this.workspaceModel.findOne({ companyId });
     if (workspace) return workspace.toObject();
     return null;
+  }
+
+  async validateNewWorkspace(
+    metaWorkSpaceDto: MetaWorkSpaceDto,
+    workspaceName: string,
+  ) {
+    if (metaWorkSpaceDto.workspaceLimit <= metaWorkSpaceDto.workspaces.length)
+      throw new HttpException(
+        'workspaces limit reached',
+        HttpStatus.PAYMENT_REQUIRED,
+      );
+    const isNameDuplicate = !metaWorkSpaceDto.workspaces.every(
+      (ws) => ws.name !== workspaceName,
+    );
+    if (isNameDuplicate)
+      throw new HttpException('duplicate name', HttpStatus.BAD_REQUEST);
   }
 
   async removeTestData() {
