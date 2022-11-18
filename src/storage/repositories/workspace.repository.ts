@@ -1,10 +1,5 @@
 import { MetaWorkSpaceDto, WorkSpaceDto } from '@cheetah/dtos/storage';
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Workspace, WorkspaceDocument } from '../schemas/workspace.schema';
@@ -33,21 +28,22 @@ export class WorkspaceRepository {
     workSpaceDto: WorkSpaceDto;
   }): Promise<MetaWorkSpaceDto> {
     const { companyId, workSpaceDto } = options;
-    try {
-      const workspace = await this.findWorkspace(companyId);
-      this.validateNewWorkspace(workspace, workSpaceDto.name);
+    const workspace = await this.findWorkspace(companyId);
+    this.validateNewWorkspace(workspace, workSpaceDto.name);
 
-      await this.workspaceModel.updateOne(
-        { companyId },
-        { $push: { workspaces: { name: workSpaceDto.name } } },
-      );
+    const dataToInsert: WorkSpaceDto = {
+      name: workSpaceDto.name,
+      columns: [],
+      columnLimit: 5,
+    };
+    await this.workspaceModel.updateOne(
+      { companyId },
+      { $push: { workspaces: dataToInsert } },
+    );
 
-      workspace.workspaces.push({ name: workSpaceDto.name });
+    workspace.workspaces.push(dataToInsert);
 
-      return workspace;
-    } catch (e) {
-      return e;
-    }
+    return workspace;
   }
 
   async findWorkspace(companyId: string): Promise<MetaWorkSpaceDto> {
@@ -56,7 +52,27 @@ export class WorkspaceRepository {
     return null;
   }
 
-  async validateNewWorkspace(
+  async addColumnToWorkspace(options: {
+    companyId: string;
+    workspaceName: WorkSpaceDto['name'];
+    columnName: string;
+  }) {
+    const { companyId, workspaceName, columnName } = options;
+
+    const metaWorkspace = await this.findWorkspace(companyId);
+    const workspace = metaWorkspace.workspaces.find(
+      (workspace) => workspace.name === workspaceName,
+    );
+    if (!workspace)
+      throw new HttpException('workspace not found', HttpStatus.NOT_FOUND);
+    this.validateColumnName(workspace, columnName);
+    await this.workspaceModel.updateOne(
+      { companyId, 'workspaces.name': workspaceName },
+      { $push: { 'workspaces.$.columns': columnName } },
+    );
+  }
+
+  validateNewWorkspace(
     metaWorkSpaceDto: MetaWorkSpaceDto,
     workspaceName: string,
   ) {
@@ -65,11 +81,32 @@ export class WorkspaceRepository {
         'workspaces limit reached',
         HttpStatus.PAYMENT_REQUIRED,
       );
+
+    if (metaWorkSpaceDto.workspaces.length == 0) return true;
     const isNameDuplicate = !metaWorkSpaceDto.workspaces.every(
       (ws) => ws.name !== workspaceName,
     );
     if (isNameDuplicate)
-      throw new HttpException('duplicate name', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'duplicate workspace name',
+        HttpStatus.BAD_REQUEST,
+      );
+  }
+
+  validateColumnName(workSpaceDto: WorkSpaceDto, columnName: string) {
+    if (workSpaceDto.columnLimit <= workSpaceDto.columns.length)
+      throw new HttpException(
+        'columns limit reached',
+        HttpStatus.PAYMENT_REQUIRED,
+      );
+
+    if (workSpaceDto.columns.length == 0) return true;
+    const isNameDuplicate = workSpaceDto.columns.includes(columnName);
+    if (isNameDuplicate)
+      throw new HttpException(
+        'duplicate workspace name',
+        HttpStatus.BAD_REQUEST,
+      );
   }
 
   async removeTestData() {

@@ -24,6 +24,22 @@ export class WorkspaceService {
 
   async getWorkSpace(): Promise<MetaWorkSpaceDto> {
     const companyId = 'STATIC_CID';
+    const workspace = await this.workspaceRepository.findWorkspace(companyId);
+    if (workspace) return workspace;
+    throw new HttpException('workspace is not exist', HttpStatus.NOT_FOUND);
+  }
+
+  async addNewColumn(options: {
+    workspaceName: WorkSpaceDto['name'];
+    columnName;
+  }): Promise<MetaWorkSpaceDto> {
+    const companyId = 'STATIC_CID';
+    const { workspaceName, columnName } = options;
+    await this.workspaceRepository.addColumnToWorkspace({
+      companyId,
+      workspaceName,
+      columnName,
+    });
     return this.workspaceRepository.findWorkspace(companyId);
   }
 }

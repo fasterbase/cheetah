@@ -3,7 +3,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import * as fs from 'fs';
-import { WorkSpaceDto } from '@cheetah/dtos/storage';
+import { ColumnDto, WorkSpaceDto } from '@cheetah/dtos/storage';
 
 const deviceId = fs.readFileSync('./deviceId.tst', 'utf-8');
 
@@ -39,5 +39,25 @@ describe('WorkSpaceController (e2e)', () => {
       .get('/storage/workspace')
       .expect(200);
     expect(data.body.workspaces.length).toBe(1);
+  });
+
+  it('[Create Column][success][201] /storage/workspace/_test (POST)', async () => {
+    const dataToSend: ColumnDto = {
+      name: '_test',
+    };
+    await request(app.getHttpServer())
+      .post('/storage/workspace/_test')
+      .send(dataToSend)
+      .expect(201);
+  });
+
+  it('[Get Workspace][success][200] /storage/workspace (Get)', async () => {
+    const data = await request(app.getHttpServer())
+      .get('/storage/workspace')
+      .expect(200);
+
+    expect(
+      data.body.workspaces.find((item) => item.name === '_test').columns.length,
+    ).toBe(1);
   });
 });

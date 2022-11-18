@@ -20,7 +20,7 @@ export class ExtensionService {
     try {
       return await this.commandRepository.insertOne(commandDto);
     } catch (e) {
-      throw new HttpException('Duplicate name', HttpStatus.BAD_REQUEST);
+      throw new HttpException('duplicate command name', HttpStatus.BAD_REQUEST);
     }
   }
 

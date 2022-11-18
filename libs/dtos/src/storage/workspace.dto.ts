@@ -1,10 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsOptional, IsString, MinLength } from 'class-validator';
 import { DTOVerification } from '../base.dto';
 
 export class WorkSpaceDto extends DTOVerification<WorkSpaceDto>() {
-  @ApiProperty({ type: String })
+  @ApiProperty({ type: String, minLength: 3 })
   @IsString()
+  @MinLength(3)
   name: string;
 
   @ApiProperty({ required: false, isArray: true })
