@@ -1,4 +1,9 @@
-import { MetaWorkSpaceDto, WorkSpaceDto } from '@cheetah/dtos/storage';
+import { Operation, OperationMapper } from '@cheetah/constants/storage';
+import {
+  MetaWorkSpaceDto,
+  OperationDto,
+  WorkSpaceDto,
+} from '@cheetah/dtos/storage';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { WorkspaceRepository } from '../repositories/workspace.repository';
 
@@ -27,6 +32,16 @@ export class WorkspaceService {
     const workspace = await this.workspaceRepository.findWorkspace(companyId);
     if (workspace) return workspace;
     throw new HttpException('workspace is not exist', HttpStatus.NOT_FOUND);
+  }
+
+  getOperationsList(): OperationDto[] {
+    return Object.keys(OperationMapper).map((key) => {
+      const operation = key as unknown as Operation;
+      return {
+        name: OperationMapper[key],
+        value: operation,
+      };
+    });
   }
 
   async addNewColumn(options: {

@@ -60,4 +60,12 @@ describe('WorkSpaceController (e2e)', () => {
       data.body.workspaces.find((item) => item.name === '_test').columns.length,
     ).toBe(1);
   });
+
+  it('[Get Operation List][success][200] /storage/workspace/operations-list (Get)', async () => {
+    const data = await request(app.getHttpServer())
+      .get('/storage/workspace/operations-list')
+      .expect(200);
+
+    expect(data.body.data.length).not.toBe(0);
+  });
 });
