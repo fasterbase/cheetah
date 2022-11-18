@@ -1,7 +1,13 @@
-import { Operation, OperationMapper } from '@cheetah/constants/storage';
+import {
+  Operation,
+  OperationMapper,
+  Query,
+  QueryMapper,
+} from '@cheetah/constants/storage';
 import {
   MetaWorkSpaceDto,
   OperationDto,
+  QueryDto,
   WorkSpaceDto,
 } from '@cheetah/dtos/storage';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
@@ -40,6 +46,16 @@ export class WorkspaceService {
       return {
         name: OperationMapper[key],
         value: operation,
+      };
+    });
+  }
+
+  getQueriesList(): QueryDto[] {
+    return Object.keys(QueryMapper).map((key) => {
+      const query = key as unknown as Query;
+      return {
+        name: QueryMapper[key],
+        value: query,
       };
     });
   }

@@ -68,4 +68,12 @@ describe('WorkSpaceController (e2e)', () => {
 
     expect(data.body.data.length).not.toBe(0);
   });
+
+  it('[Get Queries List][success][200] /storage/workspace/queries-list (Get)', async () => {
+    const data = await request(app.getHttpServer())
+      .get('/storage/workspace/queries-list')
+      .expect(200);
+
+    expect(data.body.data.length).not.toBe(0);
+  });
 });

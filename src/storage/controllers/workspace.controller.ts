@@ -3,6 +3,7 @@ import {
   ColumnDto,
   MetaWorkSpaceDto,
   OperationDto,
+  QueryDto,
   WorkSpaceDto,
 } from '@cheetah/dtos/storage';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
@@ -38,6 +39,15 @@ export class WorkspaceController {
   @Get('operations-list')
   getOperationsList(): PaginationDto<OperationDto> {
     const data = this.workspaceService.getOperationsList();
+    return {
+      data,
+      more: false,
+    };
+  }
+
+  @Get('queries-list')
+  getQueriesList(): PaginationDto<QueryDto> {
+    const data = this.workspaceService.getQueriesList();
     return {
       data,
       more: false,
