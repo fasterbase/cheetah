@@ -40,7 +40,7 @@ export class DatabaseType {
   data: any;
 }
 
-export class Actions {
+export class ActionsDto {
   @ApiProperty({ required: true, enum: ActionType })
   @IsEnum(ActionType)
   type: ActionType;

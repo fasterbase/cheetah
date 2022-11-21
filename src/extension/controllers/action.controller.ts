@@ -1,7 +1,8 @@
 import { PaginationDto } from '@cheetah/dtos';
 import { ActionSourceDto, ActionTypeDto } from '@cheetah/dtos/extension';
 import { ActionDto } from '@cheetah/dtos/extension/action.dto';
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ActionsDto } from '@cheetah/dtos/extension/actions.dto';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ActionExtensionService } from '../services/action.service';
 
 @Controller('extension/action')
@@ -14,6 +15,14 @@ export class ActionExtensionController {
   async newAction(@Body() actionDto: ActionDto): Promise<ActionDto> {
     actionDto.companyId = 'STATIC_CID';
     return await this.actionExtensionService.newAction(actionDto);
+  }
+
+  @Put('/:id')
+  async pushNewAction(
+    @Body() actionsDto: ActionsDto,
+    @Param('id') id: string,
+  ): Promise<ActionDto> {
+    return await this.actionExtensionService.pushNewAction({ id, actionsDto });
   }
 
   @Get()

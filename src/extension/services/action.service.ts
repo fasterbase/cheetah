@@ -9,6 +9,7 @@ import {
   ActionSourceDto,
   ActionTypeDto,
 } from '@cheetah/dtos/extension';
+import { ActionsDto } from '@cheetah/dtos/extension/actions.dto';
 import { Injectable } from '@nestjs/common';
 import { ActionRepository } from '../repositories/action.repository';
 
@@ -18,6 +19,22 @@ export class ActionExtensionService {
 
   async newAction(actionDto: ActionDto): Promise<ActionDto> {
     return await this.actionRepository.insertOne(actionDto);
+  }
+
+  async pushNewAction(options: {
+    id: string;
+    actionsDto: ActionsDto;
+  }): Promise<ActionDto> {
+    const { id, actionsDto } = options;
+    await this.actionRepository.pushNewAction({
+      id,
+      actionsDto,
+    });
+    return await this.getAction(id);
+  }
+
+  async getAction(id: string): Promise<ActionDto> {
+    return await this.actionRepository.findAction({ id });
   }
 
   async getActionsList(companyId: string): Promise<ActionDto[]> {

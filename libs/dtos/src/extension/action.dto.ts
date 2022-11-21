@@ -9,7 +9,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { DTOVerification } from '../base.dto';
-import { Actions } from './actions.dto';
+import { ActionsDto } from './actions.dto';
 
 export class ActionDto extends DTOVerification<ActionDto>() {
   @ApiProperty({ type: String })
@@ -24,12 +24,12 @@ export class ActionDto extends DTOVerification<ActionDto>() {
   @IsBoolean()
   isExternal: boolean;
 
-  @ApiProperty({ required: true, type: () => [Actions] })
+  @ApiProperty({ required: true, type: () => [ActionsDto] })
   @IsOptional()
   @IsArray()
-  @Type(() => Actions)
+  @Type(() => ActionsDto)
   @ValidateNested({ each: true })
-  actions?: Actions[];
+  actions?: ActionsDto[];
 
   @ApiProperty({ required: true, type: Boolean })
   @IsBoolean()

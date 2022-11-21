@@ -66,4 +66,4 @@ export class Action {
 
 export const ActionSchema = SchemaFactory.createForClass(Action);
 
-//ActionSchema.index({ name: 1, companyId: 1 }, { unique: true });
+ActionSchema.index({ name: 1, companyId: 1 }, { unique: true });
