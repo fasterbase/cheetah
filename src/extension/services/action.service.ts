@@ -4,13 +4,22 @@ import {
   ActionType,
   ActionTypeMapper,
 } from '@cheetah/constants/extension';
-import { ActionSourceDto, ActionTypeDto } from '@cheetah/dtos/extension';
+import {
+  ActionDto,
+  ActionSourceDto,
+  ActionTypeDto,
+} from '@cheetah/dtos/extension';
 import { Injectable } from '@nestjs/common';
-import { CommandRepository } from '../repositories/command.repository';
+import { ActionRepository } from '../repositories/action.repository';
 
 @Injectable()
 export class ActionExtensionService {
-  constructor(private readonly commandRepository: CommandRepository) {}
+  constructor(private readonly actionRepository: ActionRepository) {}
+
+  async newAction(actionDto: ActionDto): Promise<ActionDto> {
+    actionDto.companyId = 'STATIC_CID';
+    return this.actionRepository.insertOne(actionDto);
+  }
 
   getActionType(): ActionTypeDto[] {
     return Object.keys(ActionTypeMapper).map((key) => {

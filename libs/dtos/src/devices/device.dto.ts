@@ -24,7 +24,7 @@ export class DeviceDto extends DTOVerification<DeviceDto>() {
 
   @ApiProperty({ isArray: true, type: () => OutputDto })
   @IsOptional()
-  @ValidateNested()
+  @ValidateNested({ each: true })
   @Type(() => OutputDto)
   outputs?: OutputDto[];
 

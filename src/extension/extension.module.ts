@@ -10,6 +10,8 @@ import { ExtensionController } from './controllers/command.controller';
 import { ExtensionTestController } from './controllers/extension.test.controller';
 import { ActionExtensionController } from './controllers/action.controller';
 import { ActionExtensionService } from './services/action.service';
+import { Action, ActionSchema } from './schemas/action.schema';
+import { ActionRepository } from './repositories/action.repository';
 
 @Module({
   imports: [
@@ -24,10 +26,18 @@ import { ActionExtensionService } from './services/action.service';
       }),
       inject: [ConfigService],
     }),
-    MongooseModule.forFeature([{ name: Command.name, schema: CommandSchema }]),
+    MongooseModule.forFeature([
+      { name: Command.name, schema: CommandSchema },
+      { name: Action.name, schema: ActionSchema },
+    ]),
     LoggerModule,
   ],
-  providers: [ExtensionService, ActionExtensionService, CommandRepository],
+  providers: [
+    ExtensionService,
+    ActionExtensionService,
+    CommandRepository,
+    ActionRepository,
+  ],
   controllers: [
     ExtensionController,
     ActionExtensionController,

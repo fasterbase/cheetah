@@ -1,13 +1,13 @@
 export enum ActionType {
   'Order' = 'order',
-  'Action' = 'actiom',
+  'Market' = 'market',
   // 'Function',
   'Database' = 'database',
 }
 
 export const ActionTypeMapper: { [key in ActionType]: string } = {
   [ActionType.Order]: 'Order',
-  [ActionType.Action]: 'Action',
+  [ActionType.Market]: 'Market',
   // [ActionList.Function]: 'Function',
   [ActionType.Database]: 'Database',
 };
