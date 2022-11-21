@@ -67,9 +67,9 @@ describe('ExtensionController (e2e)', () => {
       actions: [
         {
           type: ActionType.Market,
-          data: {
+          priority: 1,
+          market: {
             id: '63777e66c24ffe2a96536e94',
-            priority: 1,
           },
         },
       ],

@@ -8,25 +8,16 @@ export type ActionDocument = HydratedDocument<Action>;
 export class MarketTypeModel {
   @Prop({ required: true })
   id: string;
-
-  @Prop({ required: true, type: Number })
-  priority: number;
 }
 
 export class OrderTypeModel {
   @Prop({ required: true })
   id: string;
-
-  @Prop({ required: true, type: Number })
-  priority: number;
 }
 
 export class DatabaseTypeModel {
   @Prop({ required: true })
   id: string;
-
-  @Prop({ required: true, type: Number })
-  priority: number;
 
   @Prop({ required: true, enum: Operation })
   operation: Operation;
@@ -42,8 +33,17 @@ export class Actions {
   @Prop({ required: true, enum: ActionType })
   type: ActionType;
 
-  @Prop({ required: true, type: Object })
-  data: MarketTypeModel | OrderTypeModel | DatabaseTypeModel;
+  @Prop({ required: true, type: Number })
+  priority: number;
+
+  @Prop({ required: false, type: MarketTypeModel })
+  market?: MarketTypeModel;
+
+  @Prop({ required: false, type: OrderTypeModel })
+  order?: OrderTypeModel;
+
+  @Prop({ required: false, type: DatabaseTypeModel })
+  database?: DatabaseTypeModel;
 }
 
 @Schema()

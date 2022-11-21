@@ -1,82 +1,15 @@
-import { ActionType } from '@cheetah/constants/extension';
-import { Operation, Query } from '@cheetah/constants/storage';
-import { HttpException, HttpStatus } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   IsArray,
   IsBoolean,
-  IsDefined,
-  IsEnum,
   IsMongoId,
-  IsNotEmptyObject,
-  IsNumber,
-  IsObject,
+  IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
 import { DTOVerification } from '../base.dto';
-
-export class MarketType {
-  @ApiProperty({ type: Number })
-  @IsMongoId()
-  id: string;
-
-  @ApiProperty({ type: Number })
-  @IsNumber()
-  priority: number;
-}
-
-export class OrderType {
-  @ApiProperty({ type: Number })
-  @IsMongoId()
-  id: string;
-
-  @ApiProperty({ type: Number })
-  @IsNumber()
-  priority: number;
-}
-
-export class DatabaseType {
-  @ApiProperty({ type: String, enum: Operation })
-  @IsEnum(Operation)
-  operation: Operation;
-
-  @ApiProperty({ type: String, enum: Query })
-  @IsEnum(Operation)
-  query: Query;
-
-  @IsDefined()
-  @IsNotEmptyObject()
-  @IsObject()
-  data: any;
-
-  @ApiProperty({ type: Number })
-  @IsNumber()
-  priority: number;
-}
-
-export class Action {
-  @IsEnum(ActionType)
-  type: ActionType;
-
-  @IsDefined()
-  @IsNotEmptyObject()
-  @IsObject()
-  @Type((obj) => {
-    switch (obj.object.type as ActionType) {
-      case ActionType.Market:
-        return MarketType;
-      case ActionType.Database:
-        return DatabaseType;
-      case ActionType.Order:
-        return OrderType;
-    }
-    throw new HttpException('type is not valid', HttpStatus.BAD_REQUEST);
-  })
-  @ValidateNested()
-  data: MarketType;
-}
+import { Actions } from './actions.dto';
 
 export class ActionDto extends DTOVerification<ActionDto>() {
   @ApiProperty({ type: String })
@@ -91,11 +24,12 @@ export class ActionDto extends DTOVerification<ActionDto>() {
   @IsBoolean()
   isExternal: boolean;
 
-  @ApiProperty({ required: true, type: Boolean })
+  @ApiProperty({ required: true, type: () => [Actions] })
+  @IsOptional()
   @IsArray()
-  @Type(() => Action)
+  @Type(() => Actions)
   @ValidateNested({ each: true })
-  actions: Action[];
+  actions?: Actions[];
 
   @ApiProperty({ required: true, type: Boolean })
   @IsBoolean()
