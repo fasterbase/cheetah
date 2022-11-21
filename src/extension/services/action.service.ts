@@ -17,8 +17,13 @@ export class ActionExtensionService {
   constructor(private readonly actionRepository: ActionRepository) {}
 
   async newAction(actionDto: ActionDto): Promise<ActionDto> {
-    actionDto.companyId = 'STATIC_CID';
     return this.actionRepository.insertOne(actionDto);
+  }
+
+  async getActionsList(companyId: string): Promise<ActionDto[]> {
+    return this.actionRepository.findActions({
+      companyId,
+    });
   }
 
   getActionType(): ActionTypeDto[] {

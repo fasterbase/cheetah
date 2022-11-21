@@ -11,8 +11,19 @@ export class ActionExtensionController {
   ) {}
 
   @Post()
-  async newAction(@Body() actionDto: ActionDto): Promise<any> {
+  async newAction(@Body() actionDto: ActionDto): Promise<ActionDto> {
+    actionDto.companyId = 'STATIC_CID';
     return await this.actionExtensionService.newAction(actionDto);
+  }
+
+  @Get()
+  async getActionsList(): Promise<PaginationDto<ActionDto>> {
+    const companyId = 'STATIC_CID';
+    const data = await this.actionExtensionService.getActionsList(companyId);
+    return {
+      data,
+      more: false,
+    };
   }
 
   @Get('type')

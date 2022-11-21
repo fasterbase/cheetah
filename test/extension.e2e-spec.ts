@@ -2,8 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { CommandDto } from '@cheetah/dtos/extension';
+import { ActionDto, CommandDto } from '@cheetah/dtos/extension';
 import * as fs from 'fs';
+import { ActionType } from '@cheetah/constants/extension';
 
 const deviceId = fs.readFileSync('./deviceId.tst', 'utf-8');
 
@@ -54,6 +55,35 @@ describe('ExtensionController (e2e)', () => {
   it('[Get Available Action Source][success][200] /extension/action/source (Get)', async () => {
     const data = await request(app.getHttpServer())
       .get('/extension/action/source')
+      .expect(200);
+    expect(data.body.data.length).not.toBeLessThan(0);
+  });
+
+  it('[Insert New Action ][success][201] /extension/action/source (POST)', async () => {
+    const dataToSend: ActionDto = {
+      name: '_test',
+      deviceId: '63777e66c24ffe2a96536e94',
+      isExternal: false,
+      actions: [
+        {
+          type: ActionType.Market,
+          data: {
+            id: '63777e66c24ffe2a96536e94',
+            priority: 1,
+          },
+        },
+      ],
+      status: true,
+    };
+    await request(app.getHttpServer())
+      .post('/extension/action')
+      .send(dataToSend)
+      .expect(201);
+  });
+
+  it('[Get Available Actions][success][200] /extension/action (Get)', async () => {
+    const data = await request(app.getHttpServer())
+      .get('/extension/action')
       .expect(200);
     expect(data.body.data.length).not.toBeLessThan(0);
   });

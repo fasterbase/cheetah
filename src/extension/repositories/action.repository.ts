@@ -15,6 +15,15 @@ export class ActionRepository {
     return data.toObject();
   }
 
+  async findActions(options: {
+    companyId: ActionDto['companyId'];
+    status?: boolean;
+  }): Promise<Action[]> {
+    const { companyId, status = true } = options;
+    const data = await this.actiondModel.find({ companyId, status });
+    return data.map((d) => d.toObject());
+  }
+
   async removeTestData() {
     await this.actiondModel.deleteOne({ name: '_test' });
   }
