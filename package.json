@@ -6,7 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "generate": "rm -rf ../clinet-sdk && swagger-codegen generate -i http://localhost:3000/api-json -l typescript-axios -o ../clinet-sdk",
+    "sdk": "yarn sdk:generate && yarn sdk:move",
+    "sdk:generate": "rm -rf ../client-sdk/apis && rm -rf ../client-sdk/models && swagger-codegen generate -i http://localhost:3000/api-json -l typescript-axios -o ../client-sdk && npm install --prefix ../client-sdk && npm run build --prefix ../client-sdk",
+    "sdk:move": "rm -rf ../arctic-fox/src/client/service && cp -R ../client-sdk/dist/ ../arctic-fox/src/client/service",
     "sdk:publish": "cd ../client-sdk && git push -u origin master",
     "prebuild": "rimraf dist",
     "build": "nest build",

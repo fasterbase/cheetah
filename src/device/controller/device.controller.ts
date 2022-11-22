@@ -9,9 +9,11 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoggerService } from '@cheetah/logger';
 import { PaginationDto } from '@cheetah/dtos';
+import { ApiPaginationResponse } from '@cheetah/common/decorators';
+import { ActionDto } from '@cheetah/dtos/extension';
 
 @ApiTags('Device')
 @Controller('device')
@@ -30,18 +32,21 @@ export class DeviceController {
     return DeviceDto.validate(data);
   }
 
+  @ApiPaginationResponse(DeviceDto, 'getAllDevices')
   @Get('list')
   async getAllDevices(): Promise<PaginationDto<DeviceDto>> {
     this.logger.log('getAllDevices called');
     const data = await this.deviceService.getDevices({
       companyId: 'STATIC_CID',
     });
+    console.log({ data: DeviceDto.arrayValidate(data) });
     return {
-      data: DeviceDto.arrayValidate(data),
+      data,
       more: false,
     };
   }
 
+  @ApiPaginationResponse(ActionDto, 'getDeviceById')
   @Get('/:_id')
   async getDeviceById(
     @Param() deviceByIdDto: DeviceByIdDto,

@@ -6,14 +6,28 @@ import { OutputRepository } from '../../repositories/blocks/output.repository';
 export class OutputService {
   constructor(private readonly outputBlockRepository: OutputRepository) {}
 
-  async addOrUpdateOutput(outputDto: OutputDto): Promise<boolean> {
+  async addOrUpdateOutput(options: {
+    outputDto: OutputDto;
+    deviceId: string;
+  }): Promise<boolean> {
+    const { outputDto, deviceId } = options;
     outputDto.companyId = 'STATIC_CID';
     outputDto.active = true;
-    return await this.outputBlockRepository.addOrUpdateOutput(outputDto);
+    return await this.outputBlockRepository.addOrUpdateOutput({
+      outputDto,
+      deviceId,
+    });
   }
 
-  async updateActiveStatus(outputDto: OutputDto): Promise<boolean> {
+  async updateActiveStatus(options: {
+    outputDto: OutputDto;
+    deviceId: string;
+  }): Promise<boolean> {
+    const { outputDto, deviceId } = options;
     outputDto.companyId = 'STATIC_CID';
-    return await this.outputBlockRepository.updateActiveStatus(outputDto);
+    return await this.outputBlockRepository.updateActiveStatus({
+      outputDto,
+      deviceId,
+    });
   }
 }

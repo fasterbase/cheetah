@@ -8,7 +8,6 @@ import {
 } from 'class-validator';
 
 export class PaginationDto<T> {
-  @ApiProperty({ type: String })
   @IsObject()
   @IsArray()
   data: T[];

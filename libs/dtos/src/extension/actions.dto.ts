@@ -57,19 +57,19 @@ export class ActionsDto {
   @ValidateIf((o) => o.type === ActionType.Market)
   market?: MarketType;
 
-  @ApiProperty({ required: false, type: ActionType.Order })
+  @ApiProperty({ required: false, type: OrderType })
   @Type(() => MarketType)
   @ValidateNested()
   @IsObject()
   @IsNotEmptyObject()
-  @ValidateIf((o) => o.type === OrderType)
+  @ValidateIf((o) => o.type === ActionType.Order)
   order?: OrderType;
 
-  @ApiProperty({ required: false, type: ActionType.Order })
-  @Type(() => MarketType)
+  @ApiProperty({ required: false, type: DatabaseType })
+  @Type(() => DatabaseType)
   @ValidateNested()
   @IsObject()
   @IsNotEmptyObject()
-  @ValidateIf((o) => o.type === MarketType)
-  database?: OrderType;
+  @ValidateIf((o) => o.type === ActionType.Database)
+  database?: DatabaseType;
 }

@@ -13,14 +13,15 @@ export class OutputRepository {
     @InjectModel(Device.name) private deviceModel: Model<DeviceDocument>,
   ) {}
 
-  async addOrUpdateOutput(outputDto: OutputDto) {
+  async addOrUpdateOutput(options: { outputDto: OutputDto; deviceId: string }) {
+    const { outputDto, deviceId } = options;
     //@todo optimize query
-    const isOutputExist = await this.isOutputExist(outputDto);
+    const isOutputExist = await this.isOutputExist({ outputDto, deviceId });
     if (isOutputExist === null) return false;
     if (isOutputExist) {
       await this.deviceModel.updateOne(
         {
-          _id: outputDto._id,
+          _id: deviceId,
           companyId: outputDto.companyId,
           'outputs.key': outputDto.key,
         },
@@ -29,7 +30,7 @@ export class OutputRepository {
     } else {
       await this.deviceModel.updateOne(
         {
-          _id: outputDto._id,
+          _id: deviceId,
           companyId: outputDto.companyId,
         },
         {
@@ -47,12 +48,19 @@ export class OutputRepository {
     return true;
   }
 
-  async updateActiveStatus(outputDto: OutputDto): Promise<boolean> {
-    const isOutputExist = await this.isOutputExist(outputDto);
+  async updateActiveStatus(options: {
+    outputDto: OutputDto;
+    deviceId: string;
+  }): Promise<boolean> {
+    const { outputDto, deviceId } = options;
+    const isOutputExist = await this.isOutputExist({
+      outputDto,
+      deviceId,
+    });
     if (isOutputExist) {
       await this.deviceModel.updateOne(
         {
-          _id: outputDto._id,
+          _id: deviceId,
           companyId: outputDto.companyId,
           'outputs.name': outputDto.name,
         },
@@ -63,10 +71,14 @@ export class OutputRepository {
     return false;
   }
 
-  async isOutputExist(outputDto: OutputDto): Promise<boolean> {
+  async isOutputExist(options: {
+    outputDto: OutputDto;
+    deviceId: string;
+  }): Promise<boolean> {
+    const { outputDto, deviceId } = options;
     const device = await this.deviceRepository.findOne({
       companyId: outputDto.companyId,
-      filter: { _id: outputDto._id },
+      filter: { _id: deviceId },
     });
     if (!device) return null;
     let isOutPutExist = false;

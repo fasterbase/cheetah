@@ -5,6 +5,7 @@ import {
   Controller,
   HttpException,
   HttpStatus,
+  Param,
   Put,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -21,22 +22,30 @@ export class DeviceOutPutController {
     this.logger.setContext(DeviceOutPutController.name);
   }
 
-  @Put()
+  @Put('/:deviceId')
   async addOrUpdateOutput(
     @Body() outputDto: OutputDto,
+    @Param('deviceId') deviceId: string,
   ): Promise<typeof ActionAccepted> {
     this.logger.log('addNewOutput called', { outputDto });
-    const result = await this.outputService.addOrUpdateOutput(outputDto);
+    const result = await this.outputService.addOrUpdateOutput({
+      outputDto,
+      deviceId,
+    });
     if (result) return ActionAccepted;
     throw new HttpException('Device not found', HttpStatus.NOT_FOUND);
   }
 
-  @Put('update-active-status')
+  @Put('update-active-status/:deviceId')
   async removeOutput(
     @Body() outputDto: OutputDto,
+    @Param('deviceId') deviceId: string,
   ): Promise<typeof ActionAccepted> {
     this.logger.log('removeOutput called', { outputDto });
-    const result = await this.outputService.updateActiveStatus(outputDto);
+    const result = await this.outputService.updateActiveStatus({
+      outputDto,
+      deviceId,
+    });
     if (result) return ActionAccepted;
     throw new HttpException('Device or output not found', HttpStatus.NOT_FOUND);
   }

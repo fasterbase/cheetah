@@ -22,7 +22,7 @@ export class DeviceDto extends DTOVerification<DeviceDto>() {
   @Transform(({ value }: TransformFnParams) => value?.trim())
   description?: string;
 
-  @ApiProperty({ isArray: true, type: [OutputDto] })
+  @ApiProperty({ required: false, isArray: true, type: () => OutputDto })
   @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => OutputDto)

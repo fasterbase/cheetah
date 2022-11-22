@@ -61,12 +61,11 @@ describe('DeviceController (e2e)', () => {
 });
 
 describe('DeviceOutPutController (e2e)', () => {
-  it('[Add new output][success][201] /device/block/output/ (PUT)', async () => {
+  it('[Add new output][success][201] /device/block/output/deviceId (PUT)', async () => {
     await request(app.getHttpServer())
-      .put('/device/block/output/')
+      .put('/device/block/output/' + deviceId)
       .send({
         name: 'test_output',
-        _id: deviceId,
       })
       .expect(200);
   });
@@ -84,10 +83,9 @@ describe('DeviceOutPutController (e2e)', () => {
 
   it('[Deactive output][success][200] /device/block/output/update-active-status (PUT)', async () => {
     await request(app.getHttpServer())
-      .put(`/device/block/output/update-active-status`)
+      .put(`/device/block/output/update-active-status/${deviceId}`)
       .send({
         name: 'test_output',
-        _id: deviceId,
         active: false,
       })
       .expect(200);

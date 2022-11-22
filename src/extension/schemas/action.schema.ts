@@ -16,9 +16,6 @@ export class OrderTypeModel {
 }
 
 export class DatabaseTypeModel {
-  @Prop({ required: true })
-  id: string;
-
   @Prop({ required: true, enum: Operation })
   operation: Operation;
 
@@ -26,7 +23,7 @@ export class DatabaseTypeModel {
   query: Query;
 
   @Prop({ required: true, type: Object })
-  subData: any;
+  data: any;
 }
 
 export class Actions {
