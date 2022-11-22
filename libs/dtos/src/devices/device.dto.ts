@@ -28,6 +28,9 @@ export class DeviceDto extends DTOVerification<DeviceDto>() {
   @Type(() => OutputDto)
   outputs?: OutputDto[];
 
+  @ApiProperty({ description: 'on response', required: false })
   companyId?: string;
+
+  @ApiProperty({ description: 'on response', required: false })
   _id?: string;
 }

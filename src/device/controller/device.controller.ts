@@ -39,7 +39,6 @@ export class DeviceController {
     const data = await this.deviceService.getDevices({
       companyId: 'STATIC_CID',
     });
-    console.log({ data: DeviceDto.arrayValidate(data) });
     return {
       data,
       more: false,

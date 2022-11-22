@@ -39,7 +39,12 @@ export class DeviceRepository {
 
     const devices = await this.deviceModel.find(filter);
 
-    if (devices) return devices.map((device) => device.toObject());
+    if (devices)
+      return devices.map((device) => {
+        const data = device.toObject();
+        data['id'] = data._id;
+        return data;
+      });
     throw new NotFoundException('Devices not found');
   }
 
