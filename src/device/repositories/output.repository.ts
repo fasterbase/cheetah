@@ -1,10 +1,10 @@
 import { DeviceDto, OutputDto } from '@cheetah/dtos/devices';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Device, DeviceDocument } from '../../schemas/device.schema';
+import { Device, DeviceDocument } from '../schemas/device.schema';
 import { nanoid } from 'nanoid';
-import { DeviceRepository } from '../device.repository';
+import { DeviceRepository } from './device.repository';
 
 @Injectable()
 export class OutputRepository {

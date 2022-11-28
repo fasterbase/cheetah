@@ -12,7 +12,7 @@ import {
   Segment,
   SegmentMapper,
 } from '@cheetah/constants/device';
-import { ConditionRepository } from './../../repositories/blocks/condition.repository';
+import { ConditionRepository } from '../repositories/condition.repository';
 import { nanoid } from 'nanoid';
 import { OperationDto } from '@cheetah/dtos/devices/operation.dto';
 

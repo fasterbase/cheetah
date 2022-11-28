@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ConditionRepository } from '../repositories/blocks/condition.repository';
+import { ConditionRepository } from '../repositories/condition.repository';
 import { DeviceRepository } from '../repositories/device.repository';
 
 @ApiTags('Device')

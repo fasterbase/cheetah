@@ -1,6 +1,6 @@
 import { OutputDto } from '@cheetah/dtos/devices';
 import { Injectable } from '@nestjs/common';
-import { OutputRepository } from '../../repositories/blocks/output.repository';
+import { OutputRepository } from '../repositories/output.repository';
 
 @Injectable()
 export class OutputService {

@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Post, Put } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
+import { ApiResponse, ApiTags, ApiExtraModels } from '@nestjs/swagger';
 import { LoggerService } from '@cheetah/logger';
-import { ConidtionService } from './../../services/blocks/condition.service';
+import { ConidtionService } from '../services/condition.service';
 import {
   CompareDto,
   CustomSegmentDto,
@@ -9,8 +9,9 @@ import {
   SegmentDto,
 } from '@cheetah/dtos/devices';
 import { PaginationDto } from '@cheetah/dtos';
+import { ApiPaginationResponse } from '@cheetah/common/decorators';
 
-@ApiTags('Device Blocks Condition')
+@ApiTags('Blocks')
 @Controller('device/block/condition')
 export class DeviceConditionController {
   constructor(
@@ -21,16 +22,17 @@ export class DeviceConditionController {
   }
 
   @Get('segments')
-  @ApiResponse({ type: PaginationDto<SegmentDto> })
+  @ApiExtraModels(SegmentDto)
+  @ApiPaginationResponse(SegmentDto, 'getSegments')
   async getSegments(): Promise<PaginationDto<SegmentDto>> {
     this.logger.log('getSegments called');
-    console.log('bye', SegmentDto, CustomSegmentDto);
     const data = await this.conidtionService.getSegmentList();
     return {
       data,
       more: false,
     };
   }
+
   @Post('custom-segments')
   @ApiResponse({ type: CustomSegmentDto })
   async createCustomSegment(
@@ -44,7 +46,7 @@ export class DeviceConditionController {
   }
 
   @Get('custom-segments')
-  @ApiResponse({ type: PaginationDto<CustomSegmentDto> })
+  @ApiPaginationResponse(CustomSegmentDto, 'getCustomSegmentList')
   async getCustomSegmentList(): Promise<PaginationDto<CustomSegmentDto>> {
     this.logger.log('getCustomSegments called');
     const data = await this.conidtionService.getCustomSegmentList('STATIC_CID');
@@ -55,7 +57,8 @@ export class DeviceConditionController {
   }
 
   @Get('operations')
-  @ApiResponse({ type: PaginationDto<OperationDto> })
+  @ApiExtraModels(OperationDto)
+  @ApiPaginationResponse(OperationDto, 'getOperations')
   async getOperations(): Promise<PaginationDto<OperationDto>> {
     this.logger.log('getOperations called');
     const data = await this.conidtionService.getOperationsList();
@@ -66,7 +69,8 @@ export class DeviceConditionController {
   }
 
   @Get('compares')
-  @ApiResponse({ type: PaginationDto<CompareDto> })
+  @ApiExtraModels(CompareDto)
+  @ApiPaginationResponse(CompareDto, 'getCompares')
   async getCompares(): Promise<PaginationDto<CompareDto>> {
     this.logger.log('getCompares called');
     const data = await this.conidtionService.getComparesList();

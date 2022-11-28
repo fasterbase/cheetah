@@ -1,8 +1,8 @@
 export enum Segment {
-  'Itself' = '0',
-  'Same' = '1',
-  'Against' = '2',
-  'Custom' = '3',
+  'Itself' = 'itSelf',
+  'Same' = 'same',
+  'Against' = 'against',
+  'Custom' = 'custom',
 }
 
 export const SegmentMapper: { [key in Segment]: string } = {

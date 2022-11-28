@@ -18,6 +18,9 @@ export const ApiPaginationResponse = <TModel extends Type<any>>(
                 type: 'array',
                 items: { $ref: getSchemaPath(model) },
               },
+              more: {
+                type: 'boolean',
+              },
             },
           },
         ],

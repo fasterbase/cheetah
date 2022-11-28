@@ -3,19 +3,19 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { configValidationSchema } from './config.schema';
-import { DeviceController } from './controller/device.controller';
+import { DeviceController } from './controllers/device.controller';
 import { Device, DeviceSchema } from './schemas/device.schema';
 import { DeviceService } from './services/device.service';
 import { DeviceRepository } from './repositories/device.repository';
 import { LoggerModule } from '@cheetah/logger';
-import { OutputRepository } from './repositories/blocks/output.repository';
-import { DeviceTestController } from './controller/device.test.controller';
-import { DeviceOutPutController } from './controller/blocks/output.controller';
-import { DeviceConditionController } from './controller/blocks/condition.controller';
-import { ConidtionService } from './services/blocks/condition.service';
-import { OutputService } from './services/blocks/output.service';
+import { OutputRepository } from './repositories/output.repository';
+import { DeviceTestController } from './controllers/device.test.controller';
+import { DeviceOutPutController } from './controllers/output.controller';
+import { DeviceConditionController } from './controllers/condition.controller';
+import { ConidtionService } from './services/condition.service';
+import { OutputService } from './services/output.service';
 import { Segment, SegmentSchema } from './schemas/segment.schema';
-import { ConditionRepository } from './repositories/blocks/condition.repository';
+import { ConditionRepository } from './repositories/condition.repository';
 
 @Module({
   imports: [

@@ -9,11 +9,10 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoggerService } from '@cheetah/logger';
 import { PaginationDto } from '@cheetah/dtos';
 import { ApiPaginationResponse } from '@cheetah/common/decorators';
-import { ActionDto } from '@cheetah/dtos/extension';
 
 @ApiTags('Device')
 @Controller('device')
@@ -25,6 +24,7 @@ export class DeviceController {
     this.logger.setContext(DeviceController.name);
   }
 
+  @ApiResponse({ type: DeviceDto })
   @Post()
   async addNewDevice(@Body() deviceDto: DeviceDto): Promise<DeviceDto> {
     this.logger.log('addNewDevice called', { deviceDto });
@@ -40,12 +40,12 @@ export class DeviceController {
       companyId: 'STATIC_CID',
     });
     return {
-      data,
+      data: DeviceDto.arrayValidate(data),
       more: false,
     };
   }
 
-  @ApiPaginationResponse(ActionDto, 'getDeviceById')
+  @ApiResponse({ type: DeviceDto })
   @Get('/:_id')
   async getDeviceById(
     @Param() deviceByIdDto: DeviceByIdDto,

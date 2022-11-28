@@ -2,7 +2,7 @@ import { CustomSegmentDto } from '@cheetah/dtos/devices';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { SegmentDocument, Segment } from './../../schemas/segment.schema';
+import { SegmentDocument, Segment } from '../schemas/segment.schema';
 
 @Injectable()
 export class ConditionRepository {

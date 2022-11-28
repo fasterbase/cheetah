@@ -10,9 +10,9 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { LoggerService } from '@cheetah/logger';
-import { OutputService } from './../../services/blocks/output.service';
+import { OutputService } from '../services/output.service';
 
-@ApiTags('Device Blocks Output')
+@ApiTags('Blocks')
 @Controller('device/block/output')
 export class DeviceOutPutController {
   constructor(
