@@ -6,18 +6,17 @@ import { CommandRepository } from '../repositories/command.repository';
 export class ExtensionService {
   constructor(private readonly commandRepository: CommandRepository) {}
 
-  async addCommand(commandDto: CommandDto) {
+  async addCommand(commandDto: CommandDto): Promise<CommandDto> {
     try {
-      return await this.commandRepository.insertOne(commandDto);
+      return (await this.commandRepository.insertOne(commandDto)).toObject();
     } catch (e) {
       throw new HttpException('duplicate command name', HttpStatus.BAD_REQUEST);
     }
   }
 
-  async getCommandsList(commandDto: CommandDto) {
+  async getCommandsList(commandDto: Partial<CommandDto>) {
     return await this.commandRepository.findMany({
       companyId: commandDto.companyId,
-      filter: commandDto,
     });
   }
 }

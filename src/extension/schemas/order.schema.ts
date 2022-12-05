@@ -12,6 +12,9 @@ export class Command {
   name: string;
 
   @Prop({ required: true })
+  description: string;
+
+  @Prop({ required: true })
   deviceId: string;
 
   @Prop({ required: true })

@@ -8,19 +8,18 @@ import {
   IsNotEmptyObject,
   IsNumber,
   IsObject,
-  IsOptional,
   ValidateIf,
   ValidateNested,
 } from 'class-validator';
 
 export class MarketType {
-  @ApiProperty({ required: true, type: Number })
+  @ApiProperty({ required: true, type: String })
   @IsMongoId()
   id: string;
 }
 
 export class OrderType {
-  @ApiProperty({ required: true, type: Number })
+  @ApiProperty({ required: true, type: String })
   @IsMongoId()
   id: string;
 }

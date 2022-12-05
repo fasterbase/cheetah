@@ -50,7 +50,7 @@ export class Action {
   @Prop({ required: true })
   name: string;
   @Prop({ required: true })
-  deviceId: string;
+  description: string;
   @Prop({ required: true, type: Boolean })
   isExternal: boolean;
   @Prop({ required: false })

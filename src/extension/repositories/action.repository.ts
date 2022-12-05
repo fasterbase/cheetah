@@ -43,7 +43,7 @@ export class ActionRepository {
   }): Promise<Action[]> {
     const { companyId, status = true } = options;
     const data = await this.actiondModel.find({ companyId, status });
-    return data.map((d) => d.toObject());
+    return data.map((d) => ({ id: d._id, ...d.toObject() }));
   }
 
   async findAction(options: { id: string }): Promise<Action> {

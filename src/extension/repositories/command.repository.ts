@@ -24,7 +24,11 @@ export class CommandRepository {
 
     const command = await this.commandModel.findOne(filter);
 
-    if (command) return command.toObject();
+    if (command) {
+      const cmd = command.toObject();
+      cmd['id'] = cmd._id;
+      return cmd;
+    }
     return null;
   }
 
@@ -39,7 +43,12 @@ export class CommandRepository {
 
     const command = await this.commandModel.find(filter);
 
-    if (command) return command.map((device) => device.toObject());
+    if (command)
+      return command.map((com) => {
+        const c = com.toObject();
+        c['id'] = c._id;
+        return c;
+      });
     throw new NotFoundException('Command not found');
   }
 

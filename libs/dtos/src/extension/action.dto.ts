@@ -3,7 +3,6 @@ import { Type } from 'class-transformer';
 import {
   IsArray,
   IsBoolean,
-  IsMongoId,
   IsOptional,
   IsString,
   ValidateNested,
@@ -12,13 +11,13 @@ import { DTOVerification } from '../base.dto';
 import { ActionsDto } from './actions.dto';
 
 export class ActionDto extends DTOVerification<ActionDto>() {
-  @ApiProperty({ type: String })
+  @ApiProperty({ required: true, type: String })
   @IsString()
   name: string;
 
-  @ApiProperty({ required: true })
-  @IsMongoId()
-  deviceId: string;
+  @ApiProperty({ required: true, type: String })
+  @IsString()
+  description: string;
 
   @ApiProperty({ required: true, type: Boolean })
   @IsBoolean()
@@ -35,6 +34,11 @@ export class ActionDto extends DTOVerification<ActionDto>() {
   @IsBoolean()
   status: boolean;
 
+  @ApiProperty({ required: false, type: String })
+  id?: string;
+
+  @ApiProperty({ required: false, type: () => String })
   externalUrl?: string;
+
   companyId?: string;
 }
