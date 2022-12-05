@@ -3,15 +3,27 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { configValidationSchema } from './config.schema';
+
 import { ExtensionService } from './services/command.service';
+import { ActionExtensionService } from './services/action.service';
+
 import { CommandRepository } from './repositories/command.repository';
-import { Command, CommandSchema } from './schemas/order.schema';
+import { ActionRepository } from './repositories/action.repository';
+import { CustomFunctionRepository } from './repositories/custom-function.repository';
+
 import { ExtensionController } from './controllers/command.controller';
 import { ExtensionTestController } from './controllers/extension.test.controller';
+import { CustomFuntionController } from './controllers/custom-function.controller';
 import { ActionExtensionController } from './controllers/action.controller';
-import { ActionExtensionService } from './services/action.service';
+
 import { Action, ActionSchema } from './schemas/action.schema';
-import { ActionRepository } from './repositories/action.repository';
+import { Command, CommandSchema } from './schemas/order.schema';
+import {
+  CustomFunction,
+  CustomFunctionSchema,
+} from './schemas/custom-function.schema';
+
+import { CustomFunctionService } from './services/custom-function.service';
 
 @Module({
   imports: [
@@ -29,19 +41,24 @@ import { ActionRepository } from './repositories/action.repository';
     MongooseModule.forFeature([
       { name: Command.name, schema: CommandSchema },
       { name: Action.name, schema: ActionSchema },
+      { name: CustomFunction.name, schema: CustomFunctionSchema },
     ]),
     LoggerModule,
   ],
   providers: [
     ExtensionService,
-    ActionExtensionService,
     CommandRepository,
+
+    ActionExtensionService,
     ActionRepository,
+
+    CustomFunctionService,
+    CustomFunctionRepository,
   ],
   controllers: [
     ExtensionController,
     ActionExtensionController,
-    ExtensionTestController,
+    CustomFuntionController,
   ],
 })
 export class ExtensionModule {}
