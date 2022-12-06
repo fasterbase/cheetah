@@ -3,6 +3,7 @@ import { Type } from 'class-transformer';
 import {
   IsArray,
   IsBoolean,
+  IsNotEmpty,
   IsOptional,
   IsString,
   ValidateNested,
@@ -13,10 +14,12 @@ import { ActionsDto } from './actions.dto';
 export class ActionDto extends DTOVerification<ActionDto>() {
   @ApiProperty({ required: true, type: String })
   @IsString()
+  @IsNotEmpty()
   name: string;
 
   @ApiProperty({ required: true, type: String })
   @IsString()
+  @IsNotEmpty()
   description: string;
 
   @ApiProperty({ required: true, type: Boolean })

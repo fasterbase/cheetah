@@ -3,6 +3,7 @@ import { Type } from 'class-transformer';
 import {
   IsArray,
   IsBoolean,
+  IsNotEmpty,
   IsOptional,
   IsString,
   ValidateNested,
@@ -11,14 +12,20 @@ import { DTOVerification } from '../base.dto';
 
 export class CustomFunctionInput {
   @ApiProperty({ required: true, type: String })
+  id: string;
+
+  @ApiProperty({ required: true, type: String })
   @IsString()
+  @IsNotEmpty()
   name: string;
 
   @ApiProperty({ required: true, type: String })
   @IsString()
+  @IsNotEmpty()
   description: string;
 
   @ApiProperty({ required: true, type: String })
+  @IsNotEmpty()
   @IsString()
   type: string;
 }
@@ -26,10 +33,12 @@ export class CustomFunctionInput {
 export class CustomFunctionDto extends DTOVerification<CustomFunctionDto>() {
   @ApiProperty({ required: true, type: String })
   @IsString()
+  @IsNotEmpty()
   name: string;
 
   @ApiProperty({ required: true, type: String })
   @IsString()
+  @IsNotEmpty()
   description: string;
 
   @ApiProperty({ required: true, type: Boolean })

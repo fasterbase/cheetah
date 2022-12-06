@@ -2,7 +2,7 @@ import { CommandDto } from '@cheetah/dtos/extension';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Command, CommandDocument } from '../schemas/order.schema';
+import { Command, CommandDocument } from '../schemas/command.schema';
 
 @Injectable()
 export class CommandRepository {

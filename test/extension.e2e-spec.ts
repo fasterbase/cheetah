@@ -28,7 +28,7 @@ describe('ExtensionController (e2e)', () => {
   it('[Create Command][success][201] /extension/command (POST)', async () => {
     const dataToSend: CommandDto = {
       name: '_test',
-      description: 'This is a test order',
+      description: 'This is a test command',
       deviceId,
       parameterName: '_test',
       parameterValue: '_test',

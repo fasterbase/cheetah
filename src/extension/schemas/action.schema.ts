@@ -5,12 +5,23 @@ import { HydratedDocument } from 'mongoose';
 
 export type ActionDocument = HydratedDocument<Action>;
 
+export class MarketInputParameter {
+  @Prop({ required: true })
+  id: string;
+
+  @Prop({ required: true })
+  value: string;
+}
+
 export class MarketTypeModel {
   @Prop({ required: true })
   id: string;
+
+  @Prop({ required: true, type: () => [MarketInputParameter] })
+  inputFields: MarketInputParameter[];
 }
 
-export class OrderTypeModel {
+export class CommandTypeModel {
   @Prop({ required: true })
   id: string;
 }
@@ -36,8 +47,8 @@ export class Actions {
   @Prop({ required: false, type: MarketTypeModel })
   market?: MarketTypeModel;
 
-  @Prop({ required: false, type: OrderTypeModel })
-  order?: OrderTypeModel;
+  @Prop({ required: false, type: CommandTypeModel })
+  command?: CommandTypeModel;
 
   @Prop({ required: false, type: DatabaseTypeModel })
   database?: DatabaseTypeModel;

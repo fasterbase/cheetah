@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, TransformFnParams, Type } from 'class-transformer';
 import {
+  IsNotEmpty,
   IsOptional,
   IsString,
   MinLength,
@@ -18,6 +19,7 @@ export class DeviceDto extends DTOVerification<DeviceDto>() {
 
   @ApiProperty({ required: false })
   @IsString()
+  @IsNotEmpty()
   @IsOptional()
   @Transform(({ value }: TransformFnParams) => value?.trim())
   description?: string;

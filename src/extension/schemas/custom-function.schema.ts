@@ -5,6 +5,9 @@ export type CustomFunctionDocument = HydratedDocument<CustomFunction>;
 
 export class CustomFunctionInputs {
   @Prop({ required: true })
+  id: string;
+
+  @Prop({ required: true })
   name: string;
 
   @Prop({ required: true })

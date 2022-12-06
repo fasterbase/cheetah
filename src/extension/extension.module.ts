@@ -17,7 +17,7 @@ import { CustomFuntionController } from './controllers/custom-function.controlle
 import { ActionExtensionController } from './controllers/action.controller';
 
 import { Action, ActionSchema } from './schemas/action.schema';
-import { Command, CommandSchema } from './schemas/order.schema';
+import { Command, CommandSchema } from './schemas/command.schema';
 import {
   CustomFunction,
   CustomFunctionSchema,

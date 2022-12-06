@@ -1,5 +1,6 @@
 import { CustomFunctionDto } from '@cheetah/dtos/extension/custom-function.dto';
 import { Injectable } from '@nestjs/common';
+import { nanoid } from 'nanoid';
 import { CustomFunctionRepository } from '../repositories/custom-function.repository';
 
 @Injectable()
@@ -21,6 +22,7 @@ export class CustomFunctionService {
       url: 'http',
       inputs: [
         {
+          id: nanoid(),
           name: 'phone',
           description: 'telephone number',
           type: 'number',

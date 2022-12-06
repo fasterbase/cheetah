@@ -3,6 +3,7 @@ import { Transform, TransformFnParams } from 'class-transformer';
 import {
   IsBoolean,
   IsMongoId,
+  IsNotEmpty,
   IsOptional,
   IsString,
   MinLength,
@@ -19,6 +20,7 @@ export class CommandDto extends DTOVerification<CommandDto>() {
   @ValidateIf((o) => !o.filter)
   @MinLength(3)
   @IsString()
+  @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => value?.trim())
   name?: string;
 
@@ -26,6 +28,7 @@ export class CommandDto extends DTOVerification<CommandDto>() {
   @ValidateIf((o) => !o.filter)
   @MinLength(3)
   @IsString()
+  @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => value?.trim())
   description?: string;
 
@@ -36,11 +39,13 @@ export class CommandDto extends DTOVerification<CommandDto>() {
 
   @ApiProperty({ required: true })
   @IsString()
+  @IsNotEmpty()
   @ValidateIf((o) => !o.filter)
   parameterName?: string;
 
   @ApiProperty({ required: true })
   @IsString()
+  @IsNotEmpty()
   @ValidateIf((o) => !o.filter)
   parameterValue?: string;
 

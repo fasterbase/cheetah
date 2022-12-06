@@ -3,24 +3,41 @@ import { Operation, Query } from '@cheetah/constants/storage';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
+  IsArray,
   IsEnum,
-  IsMongoId,
   IsNotEmptyObject,
   IsNumber,
   IsObject,
+  IsString,
   ValidateIf,
   ValidateNested,
 } from 'class-validator';
 
-export class MarketType {
+export class MarketInputParameter {
   @ApiProperty({ required: true, type: String })
-  @IsMongoId()
+  @IsString()
   id: string;
+
+  @ApiProperty({ required: true, type: String })
+  @IsString()
+  value: string;
 }
 
-export class OrderType {
+export class MarketType {
   @ApiProperty({ required: true, type: String })
-  @IsMongoId()
+  @IsString()
+  id: string;
+
+  @ApiProperty({ required: true, type: [MarketInputParameter] })
+  @IsArray()
+  @Type(() => MarketInputParameter)
+  @ValidateNested()
+  inputFields?: MarketInputParameter[];
+}
+
+export class CommandType {
+  @ApiProperty({ required: true, type: String })
+  @IsString()
   id: string;
 }
 
@@ -49,26 +66,25 @@ export class ActionsDto {
   priority: number;
 
   @ApiProperty({ required: false, type: MarketType })
+  @ValidateIf((o) => o.type === ActionType.Market)
   @Type(() => MarketType)
   @ValidateNested()
   @IsObject()
-  @IsNotEmptyObject()
-  @ValidateIf((o) => o.type === ActionType.Market)
   market?: MarketType;
 
-  @ApiProperty({ required: false, type: OrderType })
-  @Type(() => MarketType)
-  @ValidateNested()
+  @ApiProperty({ required: false, type: CommandType })
+  @ValidateIf((o) => o.type === ActionType.Command)
   @IsObject()
   @IsNotEmptyObject()
-  @ValidateIf((o) => o.type === ActionType.Order)
-  order?: OrderType;
+  @Type(() => CommandType)
+  @ValidateNested()
+  command?: CommandType;
 
   @ApiProperty({ required: false, type: DatabaseType })
-  @Type(() => DatabaseType)
-  @ValidateNested()
+  @ValidateIf((o) => o.type === ActionType.Database)
   @IsObject()
   @IsNotEmptyObject()
-  @ValidateIf((o) => o.type === ActionType.Database)
+  @Type(() => DatabaseType)
+  @ValidateNested()
   database?: DatabaseType;
 }
