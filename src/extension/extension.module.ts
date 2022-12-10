@@ -12,7 +12,6 @@ import { ActionRepository } from './repositories/action.repository';
 import { CustomFunctionRepository } from './repositories/custom-function.repository';
 
 import { ExtensionController } from './controllers/command.controller';
-import { ExtensionTestController } from './controllers/extension.test.controller';
 import { CustomFuntionController } from './controllers/custom-function.controller';
 import { ActionExtensionController } from './controllers/action.controller';
 
@@ -24,6 +23,10 @@ import {
 } from './schemas/custom-function.schema';
 
 import { CustomFunctionService } from './services/custom-function.service';
+import { Condition, ConditionSchema } from './schemas/condition.schema';
+import { ConditionController } from './controllers/condition.controller';
+import { ConditionService } from './services/condition.service';
+import { ConditionRepository } from './repositories/condition.repository';
 
 @Module({
   imports: [
@@ -42,6 +45,7 @@ import { CustomFunctionService } from './services/custom-function.service';
       { name: Command.name, schema: CommandSchema },
       { name: Action.name, schema: ActionSchema },
       { name: CustomFunction.name, schema: CustomFunctionSchema },
+      { name: Condition.name, schema: ConditionSchema },
     ]),
     LoggerModule,
   ],
@@ -54,11 +58,15 @@ import { CustomFunctionService } from './services/custom-function.service';
 
     CustomFunctionService,
     CustomFunctionRepository,
+
+    ConditionService,
+    ConditionRepository,
   ],
   controllers: [
     ExtensionController,
     ActionExtensionController,
     CustomFuntionController,
+    ConditionController,
   ],
 })
 export class ExtensionModule {}

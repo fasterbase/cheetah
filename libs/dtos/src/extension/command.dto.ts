@@ -14,6 +14,7 @@ import { DTOVerification } from '../base.dto';
 export class CommandDto extends DTOVerification<CommandDto>() {
   @ApiProperty({ required: false })
   @IsString()
+  @IsOptional()
   id?: string;
 
   @ApiProperty({ required: true })
