@@ -60,7 +60,7 @@ export class DeviceController {
     throw new HttpException('Device not found', HttpStatus.NOT_FOUND);
   }
 
-  @ApiResponse({ type: DeviceDto })
+  @ApiResponse({ type: Boolean })
   @Put('/:_id')
   async updateDevice(
     @Body() deviceDto: Partial<DeviceDto>,

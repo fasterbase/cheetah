@@ -4,14 +4,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { configValidationSchema } from './config.schema';
 
-import { ExtensionService } from './services/command.service';
+import { CommandService } from './services/command.service';
 import { ActionExtensionService } from './services/action.service';
 
 import { CommandRepository } from './repositories/command.repository';
 import { ActionRepository } from './repositories/action.repository';
 import { CustomFunctionRepository } from './repositories/custom-function.repository';
 
-import { ExtensionController } from './controllers/command.controller';
+import { CommandController } from './controllers/command.controller';
 import { CustomFuntionController } from './controllers/custom-function.controller';
 import { ActionExtensionController } from './controllers/action.controller';
 
@@ -50,7 +50,7 @@ import { ConditionRepository } from './repositories/condition.repository';
     LoggerModule,
   ],
   providers: [
-    ExtensionService,
+    CommandService,
     CommandRepository,
 
     ActionExtensionService,
@@ -63,7 +63,7 @@ import { ConditionRepository } from './repositories/condition.repository';
     ConditionRepository,
   ],
   controllers: [
-    ExtensionController,
+    CommandController,
     ActionExtensionController,
     CustomFuntionController,
     ConditionController,

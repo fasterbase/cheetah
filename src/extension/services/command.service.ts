@@ -3,7 +3,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CommandRepository } from '../repositories/command.repository';
 
 @Injectable()
-export class ExtensionService {
+export class CommandService {
   constructor(private readonly commandRepository: CommandRepository) {}
 
   async addCommand(commandDto: CommandDto): Promise<CommandDto> {
@@ -17,6 +17,26 @@ export class ExtensionService {
   async getCommandsList(commandDto: Partial<CommandDto>) {
     return await this.commandRepository.findMany({
       companyId: commandDto.companyId,
+    });
+  }
+
+  async updateCommand(
+    commandId: string,
+    commandDto: Partial<CommandDto>,
+  ): Promise<boolean> {
+    const companyId = commandDto.companyId;
+    if (!companyId && !commandId)
+      throw new HttpException(
+        'command can not be authorized',
+        HttpStatus.BAD_REQUEST,
+      );
+    delete commandDto.companyId;
+    delete commandDto.id;
+
+    return await this.commandRepository.updateOne({
+      companyId,
+      commandId,
+      commandDto,
     });
   }
 }

@@ -32,6 +32,16 @@ export class CommandRepository {
     return null;
   }
 
+  async updateOne(options: {
+    commandDto: Partial<CommandDto>;
+    commandId: string;
+    companyId: string;
+  }): Promise<boolean> {
+    const { commandDto: deviceDto, companyId, commandId } = options;
+    await this.commandModel.updateOne({ companyId, _id: commandId }, deviceDto);
+    return true;
+  }
+
   async findMany(options: {
     companyId: string;
     filter?: Partial<CommandDto>;
