@@ -24,6 +24,28 @@ export class DeviceService {
     throw new HttpException('Device is already exist', HttpStatus.CONFLICT);
   }
 
+  async updateDevice(
+    deviceId: string,
+    deviceDto: Partial<DeviceDto>,
+  ): Promise<boolean> {
+    const companyId = deviceDto.companyId;
+    if (!companyId && !deviceId)
+      throw new HttpException(
+        'device can not be authorized',
+        HttpStatus.BAD_REQUEST,
+      );
+    delete deviceDto.companyId;
+    delete deviceDto._id;
+
+    console.log({ deviceDto });
+    console.log({ deviceId });
+    return await this.deviceRepository.updateOne({
+      companyId,
+      deviceId,
+      deviceDto,
+    });
+  }
+
   async getDevices(options: {
     companyId: Partial<DeviceDto['companyId']>;
   }): Promise<Device[]> {

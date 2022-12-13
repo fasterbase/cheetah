@@ -8,10 +8,11 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoggerService } from '@cheetah/logger';
-import { PaginationDto } from '@cheetah/dtos';
+import { ActionAccepted, PaginationDto } from '@cheetah/dtos';
 import { ApiPaginationResponse } from '@cheetah/common/decorators';
 
 @ApiTags('Device')
@@ -57,5 +58,16 @@ export class DeviceController {
     });
     if (data) return DeviceDto.validate(data);
     throw new HttpException('Device not found', HttpStatus.NOT_FOUND);
+  }
+
+  @ApiResponse({ type: DeviceDto })
+  @Put('/:_id')
+  async updateDevice(
+    @Body() deviceDto: Partial<DeviceDto>,
+    @Param('_id') deviceId: string,
+  ): Promise<typeof ActionAccepted> {
+    this.logger.log('updateDevice called');
+    await this.deviceService.updateDevice(deviceId, deviceDto);
+    return ActionAccepted;
   }
 }

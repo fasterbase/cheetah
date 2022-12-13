@@ -14,6 +14,16 @@ export class DeviceRepository {
     return (await this.deviceModel.create(deviceDto)).toObject();
   }
 
+  async updateOne(options: {
+    deviceDto: Partial<DeviceDto>;
+    deviceId: string;
+    companyId: string;
+  }): Promise<boolean> {
+    const { deviceDto, companyId, deviceId } = options;
+    await this.deviceModel.updateOne({ companyId, _id: deviceId }, deviceDto);
+    return true;
+  }
+
   async findOne(options: {
     companyId: string;
     filter: Partial<DeviceDto>;

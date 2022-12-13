@@ -1,5 +1,6 @@
 import { Compare, Operation, Segment } from '@cheetah/constants/device';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEnum,
@@ -14,44 +15,54 @@ export class ConditionDto extends DTOVerification<ConditionDto>() {
   @ApiProperty({ required: true })
   @IsString()
   @IsNotEmpty()
-  name: string;
+  identifier: string;
 
   @ApiProperty({ required: true })
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @ApiProperty({ enum: Segment, required: true })
   @IsEnum(Segment)
   segment: Segment;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({ enum: Operation, required: true })
   @IsEnum(Operation)
   operation: Operation;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({ type: Number, required: true })
+  @Type(() => Number)
   @IsNumber()
   threshold: number;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({ enum: Compare, required: true })
   @IsEnum(Compare)
   compare: Compare;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({ type: Boolean, required: true })
   @IsBoolean()
   status: boolean;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({ type: Number, required: false })
+  @Type(() => Number)
   @IsNumber()
   @IsOptional()
   customPeriod?: number;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({ type: Number, required: false })
+  @Type(() => Number)
   @IsNumber()
   @IsOptional()
   customValue?: number;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({ type: Number, required: false })
+  @Type(() => Number)
   @IsNumber()
   @IsOptional()
   customUserInput?: number;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({ type: Number, required: false })
+  @Type(() => Number)
   @IsNumber()
   @IsOptional()
   customOperationValue?: number;

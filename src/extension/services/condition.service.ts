@@ -1,4 +1,3 @@
-import { CommandDto } from '@cheetah/dtos/extension';
 import { ConditionDto } from '@cheetah/dtos/extension/condition.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConditionRepository } from '../repositories/condition.repository';

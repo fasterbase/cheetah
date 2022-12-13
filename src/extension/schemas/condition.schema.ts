@@ -10,6 +10,9 @@ export class Condition {
   companyId: string;
 
   @Prop({ required: true })
+  identifier: string;
+
+  @Prop({ required: true })
   name: string;
 
   @Prop({ type: String, enum: Segment, required: true })
@@ -42,4 +45,4 @@ export class Condition {
 
 export const ConditionSchema = SchemaFactory.createForClass(Condition);
 
-ConditionSchema.index({ name: 1, companyId: 1 }, { unique: true });
+ConditionSchema.index({ identifier: 1, companyId: 1 }, { unique: true });
