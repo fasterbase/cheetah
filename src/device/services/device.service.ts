@@ -37,8 +37,6 @@ export class DeviceService {
     delete deviceDto.companyId;
     delete deviceDto._id;
 
-    console.log({ deviceDto });
-    console.log({ deviceId });
     return await this.deviceRepository.updateOne({
       companyId,
       deviceId,
