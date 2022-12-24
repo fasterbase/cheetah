@@ -10,6 +10,7 @@ import {
   ActionTypeDto,
 } from '@cheetah/dtos/extension';
 import { ActionsDto } from '@cheetah/dtos/extension/actions.dto';
+import { UpdateActionDto } from '@cheetah/dtos/extension/update-action.dto';
 import { Injectable } from '@nestjs/common';
 import { ActionRepository } from '../repositories/action.repository';
 
@@ -53,13 +54,27 @@ export class ActionExtensionService {
     });
   }
 
-  updateActions(options: {
+  async updateAction(options: {
+    id: string;
+    companyId: string;
+    updateActionDto: UpdateActionDto;
+  }): Promise<boolean> {
+    const { updateActionDto, id, companyId } = options;
+    await this.actionRepository.updateAction({
+      companyId,
+      actionId: id,
+      updateAction: updateActionDto,
+    });
+    return true;
+  }
+
+  async updateActions(options: {
     id: string;
     companyId: string;
     actionsList: ActionsDto[];
   }) {
     const { actionsList, id, companyId } = options;
-    this.actionRepository.updateActions({
+    await this.actionRepository.updateActions({
       companyId,
       actionId: id,
       actionsList,

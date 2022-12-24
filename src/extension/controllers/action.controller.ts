@@ -3,6 +3,7 @@ import { ActionAccepted, PaginationDto } from '@cheetah/dtos';
 import { ActionSourceDto, ActionTypeDto } from '@cheetah/dtos/extension';
 import { ActionDto } from '@cheetah/dtos/extension/action.dto';
 import { ActionsDto } from '@cheetah/dtos/extension/actions.dto';
+import { UpdateActionDto } from '@cheetah/dtos/extension/update-action.dto';
 import { UpdateActionsListDto } from '@cheetah/dtos/extension/update-actions-list.dto';
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -23,6 +24,21 @@ export class ActionExtensionController {
   }
 
   @Put('/:id')
+  @ApiResponse({ type: ActionDto })
+  async updateAction(
+    @Body() updateActionDto: UpdateActionDto,
+    @Param('id') id: string,
+  ): Promise<typeof ActionAccepted> {
+    const companyId = 'STATIC_CID';
+    await this.actionExtensionService.updateAction({
+      id,
+      companyId,
+      updateActionDto,
+    });
+    return ActionAccepted;
+  }
+
+  @Post('action-list/:id')
   @ApiResponse({ type: ActionDto })
   async pushNewAction(
     @Body() actionsDto: ActionsDto,

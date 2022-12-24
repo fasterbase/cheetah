@@ -1,5 +1,6 @@
 import { ActionDto } from '@cheetah/dtos/extension';
 import { ActionsDto } from '@cheetah/dtos/extension/actions.dto';
+import { UpdateActionDto } from '@cheetah/dtos/extension/update-action.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -35,6 +36,22 @@ export class ActionRepository {
       { $push: { actions: actionsDto } },
     );
     return true;
+  }
+
+  async updateAction(options: {
+    companyId: ActionDto['companyId'];
+    actionId: string;
+    updateAction: UpdateActionDto;
+  }) {
+    const { companyId, actionId, updateAction } = options;
+    await this.actiondModel.updateOne(
+      { _id: actionId, companyId },
+      {
+        $set: {
+          updateAction,
+        },
+      },
+    );
   }
 
   async updateActions(options: {
