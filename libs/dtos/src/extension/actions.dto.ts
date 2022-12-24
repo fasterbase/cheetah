@@ -47,7 +47,7 @@ export class DatabaseType {
   operation: Operation;
 
   @ApiProperty({ required: true, type: String, enum: Query })
-  @IsEnum(Operation)
+  @IsEnum(Query)
   query: Query;
 
   @ApiProperty({ required: true, type: Object })
@@ -57,6 +57,10 @@ export class DatabaseType {
 }
 
 export class ActionsDto {
+  @ApiProperty({ required: true, type: String })
+  @IsString()
+  id: number;
+
   @ApiProperty({ required: true, enum: ActionType })
   @IsEnum(ActionType)
   type: ActionType;

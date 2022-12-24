@@ -38,6 +38,9 @@ export class DatabaseTypeModel {
 }
 
 export class Actions {
+  @Prop({ required: true })
+  id: string;
+
   @Prop({ required: true, enum: ActionType })
   type: ActionType;
 

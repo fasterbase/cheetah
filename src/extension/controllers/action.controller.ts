@@ -1,8 +1,9 @@
 import { ApiPaginationResponse } from '@cheetah/common/decorators';
-import { PaginationDto } from '@cheetah/dtos';
+import { ActionAccepted, PaginationDto } from '@cheetah/dtos';
 import { ActionSourceDto, ActionTypeDto } from '@cheetah/dtos/extension';
 import { ActionDto } from '@cheetah/dtos/extension/action.dto';
 import { ActionsDto } from '@cheetah/dtos/extension/actions.dto';
+import { UpdateActionsListDto } from '@cheetah/dtos/extension/update-actions-list.dto';
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ActionExtensionService } from '../services/action.service';
@@ -28,6 +29,21 @@ export class ActionExtensionController {
     @Param('id') id: string,
   ): Promise<ActionDto> {
     return await this.actionExtensionService.pushNewAction({ id, actionsDto });
+  }
+
+  @Put('/actions-list/:id')
+  @ApiResponse({ type: ActionDto })
+  async updateActions(
+    @Body() updateActionsListDto: UpdateActionsListDto,
+    @Param('id') id: string,
+  ): Promise<typeof ActionAccepted> {
+    const companyId = 'STATIC_CID';
+    await this.actionExtensionService.updateActions({
+      id,
+      companyId,
+      actionsList: updateActionsListDto.data,
+    });
+    return ActionAccepted;
   }
 
   @ApiExtraModels(ActionDto)

@@ -11,7 +11,7 @@ export class ActionRepository {
     @InjectModel(Action.name) private actiondModel: Model<ActionDocument>,
   ) {}
 
-  async insertOne(actionDto: ActionDto): Promise<Action> {
+  async insertOne(actionDto: ActionDto): Promise<ActionDto> {
     const data = await this.actiondModel.create(actionDto);
     return data.toObject();
   }
@@ -37,16 +37,32 @@ export class ActionRepository {
     return true;
   }
 
+  async updateActions(options: {
+    companyId: ActionDto['companyId'];
+    actionId: string;
+    actionsList: ActionsDto[];
+  }) {
+    const { companyId, actionId, actionsList } = options;
+    await this.actiondModel.updateOne(
+      { _id: actionId, companyId },
+      {
+        $set: {
+          actions: actionsList,
+        },
+      },
+    );
+  }
+
   async findActions(options: {
     companyId: ActionDto['companyId'];
     status?: boolean;
-  }): Promise<Action[]> {
+  }): Promise<ActionDto[]> {
     const { companyId, status = true } = options;
     const data = await this.actiondModel.find({ companyId, status });
-    return data.map((d) => ({ id: d._id, ...d.toObject() }));
+    return data.map((d) => d.toObject());
   }
 
-  async findAction(options: { id: string }): Promise<Action> {
+  async findAction(options: { id: string }): Promise<ActionDto> {
     const { id } = options;
     const data = await this.actiondModel.findOne({ _id: id });
     return data.toObject();

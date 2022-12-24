@@ -53,6 +53,19 @@ export class ActionExtensionService {
     });
   }
 
+  updateActions(options: {
+    id: string;
+    companyId: string;
+    actionsList: ActionsDto[];
+  }) {
+    const { actionsList, id, companyId } = options;
+    this.actionRepository.updateActions({
+      companyId,
+      actionId: id,
+      actionsList,
+    });
+  }
+
   getAvailableActionSource(): ActionSourceDto[] {
     return Object.keys(ActionSourceMapper).map((key) => {
       const actionSource = key as unknown as ActionSource;

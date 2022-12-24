@@ -6,7 +6,7 @@ export enum Operation {
   'EqualLess' = 'equalLess',
   'DiffGreater' = 'diffGreater',
   'DiffLess' = 'diffLess',
-  'Custom' = 'custom',
+  // 'Custom' = 'custom',
 }
 
 export const OperationMapper: { [key in Operation]: string } = {
@@ -17,5 +17,5 @@ export const OperationMapper: { [key in Operation]: string } = {
   [Operation.EqualLess]: 'Less Than Or Equal ...',
   [Operation.DiffGreater]: 'Difference Greater Than ...',
   [Operation.DiffLess]: 'Difference Less Than ...',
-  [Operation.Custom]: 'Custom From Input ...',
+  // [Operation.Custom]: 'Custom From Input ...',
 };
