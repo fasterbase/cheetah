@@ -59,7 +59,7 @@ export class DatabaseType {
 export class ActionsDto {
   @ApiProperty({ required: true, type: String })
   @IsString()
-  id: number;
+  id: string;
 
   @ApiProperty({ required: true, enum: ActionType })
   @IsEnum(ActionType)

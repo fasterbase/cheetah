@@ -1,4 +1,4 @@
-import { DeviceDto, OutputDto } from '@cheetah/dtos/devices';
+import { OutputDto } from '@cheetah/dtos/devices';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -21,7 +21,7 @@ export class OutputRepository {
     if (isOutputExist) {
       await this.deviceModel.updateOne(
         {
-          _id: deviceId,
+          deviceId,
           companyId: outputDto.companyId,
           'outputs.key': outputDto.key,
         },
@@ -30,7 +30,7 @@ export class OutputRepository {
     } else {
       await this.deviceModel.updateOne(
         {
-          _id: deviceId,
+          deviceId,
           companyId: outputDto.companyId,
         },
         {
@@ -60,7 +60,7 @@ export class OutputRepository {
     if (isOutputExist) {
       await this.deviceModel.updateOne(
         {
-          _id: deviceId,
+          deviceId,
           companyId: outputDto.companyId,
           'outputs.name': outputDto.name,
         },
@@ -78,7 +78,7 @@ export class OutputRepository {
     const { outputDto, deviceId } = options;
     const device = await this.deviceRepository.findOne({
       companyId: outputDto.companyId,
-      filter: { _id: deviceId },
+      filter: { deviceId },
     });
     if (!device) return null;
     let isOutPutExist = false;

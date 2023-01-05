@@ -18,6 +18,9 @@ export class Device {
   @Prop({ required: true })
   companyId: string;
 
+  @Prop({ unique: true, index: true, required: true })
+  deviceId: string;
+
   @Prop({ required: true })
   name: string;
 

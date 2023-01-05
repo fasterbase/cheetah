@@ -13,7 +13,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "docker:build": "docker build -t fasterbase/cheetah .",
-    "docker:run":"docker run -d -p 3000:3000 fasterbase/cheetah",
+    "docker:run": "docker run -d -p 3000:3000 fasterbase/cheetah",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
     "seeder": "node dist/src/main init",
     "start": "node dist/src/main.js",
@@ -51,6 +51,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "typeorm": "^0.3.10",
+    "uuid": "^9.0.0",
     "winston": "^3.8.2"
   },
   "devDependencies": {

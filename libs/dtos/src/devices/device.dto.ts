@@ -34,5 +34,5 @@ export class DeviceDto extends DTOVerification<DeviceDto>() {
   companyId?: string;
 
   @ApiProperty({ description: 'on response', required: false })
-  _id?: string;
+  deviceId?: string;
 }

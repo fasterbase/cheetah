@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { DeviceDto } from '@cheetah/dtos/devices';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -11,6 +12,7 @@ export class DeviceRepository {
   ) {}
 
   async insertOne(deviceDto: DeviceDto) {
+    deviceDto.deviceId = uuidv4();
     return (await this.deviceModel.create(deviceDto)).toObject();
   }
 
@@ -20,7 +22,7 @@ export class DeviceRepository {
     companyId: string;
   }): Promise<boolean> {
     const { deviceDto, companyId, deviceId } = options;
-    await this.deviceModel.updateOne({ companyId, _id: deviceId }, deviceDto);
+    await this.deviceModel.updateOne({ companyId, deviceId }, deviceDto);
     return true;
   }
 
@@ -51,9 +53,7 @@ export class DeviceRepository {
 
     if (devices)
       return devices.map((device) => {
-        const data = device.toObject();
-        data['id'] = data._id;
-        return data;
+        return device.toObject();
       });
     throw new NotFoundException('Devices not found');
   }

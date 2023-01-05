@@ -47,24 +47,24 @@ export class DeviceController {
   }
 
   @ApiResponse({ type: DeviceDto })
-  @Get('/:_id')
+  @Get('/:deviceId')
   async getDeviceById(
     @Param() deviceByIdDto: DeviceByIdDto,
   ): Promise<DeviceDto> {
     this.logger.log('getDeviceById called');
     const data = await this.deviceService.getDevice({
       companyId: 'STATIC_CID',
-      deviceId: deviceByIdDto._id,
+      deviceId: deviceByIdDto.deviceId,
     });
     if (data) return DeviceDto.validate(data);
     throw new HttpException('Device not found', HttpStatus.NOT_FOUND);
   }
 
   @ApiResponse({ type: Boolean })
-  @Put('/:_id')
+  @Put('/:deviceId')
   async updateDevice(
     @Body() deviceDto: Partial<DeviceDto>,
-    @Param('_id') deviceId: string,
+    @Param('deviceId') deviceId: string,
   ): Promise<typeof ActionAccepted> {
     this.logger.log('updateDevice called');
     await this.deviceService.updateDevice(deviceId, deviceDto);

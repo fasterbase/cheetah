@@ -5,6 +5,7 @@ import { AppModule } from '../src/app.module';
 import { ActionDto, CommandDto } from '@cheetah/dtos/extension';
 import * as fs from 'fs';
 import { ActionType } from '@cheetah/constants/extension';
+import { nanoid } from 'nanoid';
 
 const deviceId = fs.readFileSync('./deviceId.tst', 'utf-8');
 
@@ -67,6 +68,7 @@ describe('ExtensionController (e2e)', () => {
       isExternal: false,
       actions: [
         {
+          id: nanoid(),
           type: ActionType.Market,
           priority: 1,
           market: {

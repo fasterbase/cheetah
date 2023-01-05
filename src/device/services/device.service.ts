@@ -35,7 +35,6 @@ export class DeviceService {
         HttpStatus.BAD_REQUEST,
       );
     delete deviceDto.companyId;
-    delete deviceDto._id;
 
     return await this.deviceRepository.updateOne({
       companyId,
@@ -60,7 +59,7 @@ export class DeviceService {
     const { companyId, deviceId } = options;
     const data = await this.deviceRepository.findOne({
       companyId,
-      filter: { _id: deviceId },
+      filter: { deviceId },
     });
     return data;
   }
