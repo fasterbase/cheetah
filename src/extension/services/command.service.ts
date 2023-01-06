@@ -1,6 +1,8 @@
 import { CommandDto } from '@cheetah/dtos/extension';
+import { UpdateCommandDto } from '@cheetah/dtos/extension/update-command.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CommandRepository } from '../repositories/command.repository';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class CommandService {
@@ -8,6 +10,7 @@ export class CommandService {
 
   async addCommand(commandDto: CommandDto): Promise<CommandDto> {
     try {
+      commandDto.commandId = uuidv4();
       return (await this.commandRepository.insertOne(commandDto)).toObject();
     } catch (e) {
       throw new HttpException('duplicate command name', HttpStatus.BAD_REQUEST);
@@ -22,21 +25,20 @@ export class CommandService {
 
   async updateCommand(
     commandId: string,
-    commandDto: Partial<CommandDto>,
+    updateCommandDto: UpdateCommandDto,
   ): Promise<boolean> {
-    const companyId = commandDto.companyId;
+    const companyId = updateCommandDto.companyId;
     if (!companyId && !commandId)
       throw new HttpException(
         'command can not be authorized',
         HttpStatus.BAD_REQUEST,
       );
-    delete commandDto.companyId;
-    delete commandDto.id;
+    delete updateCommandDto.companyId;
+    delete updateCommandDto.commandId;
 
     return await this.commandRepository.updateOne({
-      companyId,
       commandId,
-      commandDto,
+      updateCommandDto,
     });
   }
 }

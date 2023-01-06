@@ -6,6 +6,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  IsUUID,
   MinLength,
   ValidateIf,
 } from 'class-validator';
@@ -15,7 +16,7 @@ export class CommandDto extends DTOVerification<CommandDto>() {
   @ApiProperty({ required: false })
   @IsString()
   @IsOptional()
-  id?: string;
+  commandId?: string;
 
   @ApiProperty({ required: true })
   @ValidateIf((o) => !o.filter)
@@ -34,7 +35,7 @@ export class CommandDto extends DTOVerification<CommandDto>() {
   description?: string;
 
   @ApiProperty({ required: false })
-  @IsMongoId()
+  @IsUUID()
   @ValidateIf((o) => !o.filter)
   deviceId?: string;
 

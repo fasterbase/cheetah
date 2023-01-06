@@ -6,6 +6,9 @@ export type CommandDocument = HydratedDocument<Command>;
 @Schema()
 export class Command {
   @Prop({ required: true })
+  commandId: string;
+
+  @Prop({ required: true })
   companyId: string;
 
   @Prop({ required: true })

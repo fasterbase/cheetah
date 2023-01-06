@@ -1,4 +1,5 @@
 import { CommandDto } from '@cheetah/dtos/extension';
+import { UpdateCommandDto } from '@cheetah/dtos/extension/update-command.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -33,12 +34,11 @@ export class CommandRepository {
   }
 
   async updateOne(options: {
-    commandDto: Partial<CommandDto>;
+    updateCommandDto: UpdateCommandDto;
     commandId: string;
-    companyId: string;
   }): Promise<boolean> {
-    const { commandDto: deviceDto, companyId, commandId } = options;
-    await this.commandModel.updateOne({ companyId, _id: commandId }, deviceDto);
+    const { updateCommandDto: commandDto, commandId } = options;
+    await this.commandModel.updateOne({ commandId }, commandDto);
     return true;
   }
 
