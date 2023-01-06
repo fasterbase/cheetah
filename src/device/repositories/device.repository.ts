@@ -19,10 +19,9 @@ export class DeviceRepository {
   async updateOne(options: {
     deviceDto: Partial<DeviceDto>;
     deviceId: string;
-    companyId: string;
   }): Promise<boolean> {
-    const { deviceDto, companyId, deviceId } = options;
-    await this.deviceModel.updateOne({ companyId, deviceId }, deviceDto);
+    const { deviceDto, deviceId } = options;
+    await this.deviceModel.updateOne({ deviceId }, deviceDto);
     return true;
   }
 

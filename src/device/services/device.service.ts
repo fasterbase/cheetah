@@ -34,10 +34,8 @@ export class DeviceService {
         'device can not be authorized',
         HttpStatus.BAD_REQUEST,
       );
-    delete deviceDto.companyId;
 
     return await this.deviceRepository.updateOne({
-      companyId,
       deviceId,
       deviceDto,
     });

@@ -9,7 +9,6 @@ import {
 } from 'class-validator';
 import { DTOVerification } from '../base.dto';
 import { OutputDto } from './output.dto';
-
 export class DeviceDto extends DTOVerification<DeviceDto>() {
   @ApiProperty({ required: true })
   @MinLength(3)

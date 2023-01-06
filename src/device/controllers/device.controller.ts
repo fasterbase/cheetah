@@ -1,5 +1,9 @@
 import { DeviceService } from '../services/device.service';
-import { DeviceByIdDto, DeviceDto } from '@cheetah/dtos/devices';
+import {
+  DeviceByIdDto,
+  DeviceDto,
+  UpdateDeviceDto,
+} from '@cheetah/dtos/devices';
 import {
   Body,
   Controller,
@@ -60,11 +64,11 @@ export class DeviceController {
     throw new HttpException('Device not found', HttpStatus.NOT_FOUND);
   }
 
-  @ApiResponse({ type: Boolean })
+  @ApiResponse({ type: typeof ActionAccepted })
   @Put('/:deviceId')
   async updateDevice(
-    @Body() deviceDto: Partial<DeviceDto>,
     @Param('deviceId') deviceId: string,
+    @Body() deviceDto: UpdateDeviceDto,
   ): Promise<typeof ActionAccepted> {
     this.logger.log('updateDevice called');
     await this.deviceService.updateDevice(deviceId, deviceDto);
