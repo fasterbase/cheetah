@@ -22,20 +22,26 @@ export class CustomFunction {
   @Prop({ required: true })
   companyId: string;
 
-  @Prop({ required: true })
-  name: string;
+  @Prop({ required: false })
+  name?: string;
 
   @Prop({ required: true })
-  description: string;
+  filePath: string;
+
+  @Prop({ required: true, type: Boolean })
+  isVerified: boolean;
+
+  @Prop({ required: false })
+  description?: string;
 
   @Prop({ required: true, type: Boolean })
   isPublic: boolean;
 
-  @Prop({ required: true })
-  url: string;
+  @Prop({ required: false })
+  url?: string;
 
-  @Prop({ required: true, type: () => [CustomFunctionInputs] })
-  inputs: CustomFunctionInputs[];
+  @Prop({ required: false, type: () => [CustomFunctionInputs] })
+  inputs?: CustomFunctionInputs[];
 
   @Prop({ required: true, default: true })
   status: boolean;

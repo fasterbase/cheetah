@@ -13,10 +13,8 @@ export class CustomFunctionRepository {
     @InjectModel(CustomFunction.name)
     private customFunctionModel: Model<CustomFunctionDocument>,
   ) {}
-  async insertOne(
-    customFunctionDto: CustomFunctionDto,
-  ): Promise<CustomFunctionDto> {
-    const data = await this.customFunctionModel.create(customFunctionDto);
+  async insertOne(customFunction: CustomFunction): Promise<CustomFunctionDto> {
+    const data = await this.customFunctionModel.create(customFunction);
     return data.toObject();
   }
 

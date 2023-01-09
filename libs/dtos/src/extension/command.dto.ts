@@ -2,7 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import {
   IsBoolean,
-  IsMongoId,
   IsNotEmpty,
   IsOptional,
   IsString,

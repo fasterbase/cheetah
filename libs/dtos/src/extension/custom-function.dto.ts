@@ -39,6 +39,15 @@ export class CustomFunctionDto extends DTOVerification<CustomFunctionDto>() {
   @ApiProperty({ required: true, type: String })
   @IsString()
   @IsNotEmpty()
+  filePath: string;
+
+  @ApiProperty({ required: true, type: Boolean })
+  @IsBoolean()
+  isVerified: boolean;
+
+  @ApiProperty({ required: true, type: String })
+  @IsString()
+  @IsNotEmpty()
   description: string;
 
   @ApiProperty({ required: true, type: Boolean })

@@ -11,27 +11,14 @@ export class CustomFunctionService {
     //this.newCustomFunction();
   }
 
-  async newCustomFunction(
-    customFunctionDto?: CustomFunctionDto,
-  ): Promise<CustomFunctionDto> {
-    const a = await this.customFunctionRepository.insertOne({
-      companyId: 'STATIC_CID',
-      name: 'Send SMS',
-      description: 'Send Welcome SMS',
-      isPublic: true,
-      url: 'http',
-      inputs: [
-        {
-          id: nanoid(),
-          name: 'phone',
-          description: 'telephone number',
-          type: 'number',
-        },
-      ],
-      status: true,
+  async newCustomFunction(options: { filePath: string; companyId: string }) {
+    await this.customFunctionRepository.insertOne({
+      filePath: options.filePath,
+      companyId: options.companyId,
+      isVerified: false,
+      isPublic: false,
+      status: false,
     });
-    console.log({ a });
-    return a;
   }
 
   async customFunctionsList(

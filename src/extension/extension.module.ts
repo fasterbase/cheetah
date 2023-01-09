@@ -27,6 +27,7 @@ import { Condition, ConditionSchema } from './schemas/condition.schema';
 import { ConditionController } from './controllers/condition.controller';
 import { ConditionService } from './services/condition.service';
 import { ConditionRepository } from './repositories/condition.repository';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -47,6 +48,11 @@ import { ConditionRepository } from './repositories/condition.repository';
       { name: CustomFunction.name, schema: CustomFunctionSchema },
       { name: Condition.name, schema: ConditionSchema },
     ]),
+    MulterModule.registerAsync({
+      useFactory: () => ({
+        dest: './upload/custom-functions',
+      }),
+    }),
     LoggerModule,
   ],
   providers: [
